@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.MiniMarket.TitleProduct" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.MiniMarket.TitleProducer" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/gray_600</item>
+    </style>
+
+    <style name="TextAppearance.MiniMarket.PriceProduct" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

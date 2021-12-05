@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var ed: EditText
+        /*var ed: EditText
         ed.addTextChangedListener(object: TextWatcher {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 TODO("Not yet implemented")
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 TODO("Not yet implemented")
             }
-        })
+        })*/
     }
 
 
