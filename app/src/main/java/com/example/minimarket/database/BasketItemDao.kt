@@ -9,11 +9,11 @@ interface BasketItemDao {
     fun getAll(): Flow<List<BasketItem>>*/
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun setQuantity(productId: Product, quantity: Int)
+    suspend fun replaceItem(item: BasketItem)
 
     @Delete
-    fun deleteItem(productId: Product)
+    suspend fun deleteItem(item: BasketItem)
 
     @Delete
-    fun deleteAll()
+    suspend fun deleteAll()
 }

@@ -8,20 +8,23 @@ interface ProductDao {
     @Query("SELECT * FROM PRODUCTS")
     fun getAll(): Flow<List<Product>>
 
-    @Query("SELECT * FROM PRODUCTS WHERE NAME LIKE :text")
+    @Query("SELECT * FROM products WHERE name LIKE :text")
     fun findByName(text: String): Flow<List<Product>>
 
+    @Query("SELECT * FROM products WHERE productId = :id")
+    fun getById(id: Int): Flow<Product>
+
     @Insert
-    fun insertAll(vararg products: Product)
+    suspend fun insertAll(vararg products: Product)
 
     @Delete
-    fun deleteAll()
+    suspend fun deleteAll()
 
     @Transaction
     @Query("SELECT * FROM products WHERE productId = :productId")
-    fun getProductSale(productId: Int): Flow<ProductSale>
+    fun getProductDetails(productId: Int): Flow<ProductDetails>
 
     @Transaction
     @Query("SELECT * FROM products")
-    fun getBasket(): Flow<List<ProductSale>>
+    fun getBasket(): Flow<List<ProductDetails>>
 }
