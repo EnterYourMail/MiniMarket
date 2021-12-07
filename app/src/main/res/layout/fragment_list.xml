@@ -4,19 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ListFragment">
+    tools:context=".ui.list.ListFragment">
 
-    <include layout="@layout/item_line" />
+    <EditText
+        android:id="@+id/edListSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        android:autofillHints="@string/list_search_hint"
+        android:hint="@string/list_search_hint"
+        android:inputType="textPersonName"
+        android:minHeight="48dp" />
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <include layout="@layout/item_cell" />
-
-        <include layout="@layout/item_cell" />
-
-    </LinearLayout>
-
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_marginEnd="@dimen/margin_default" />
 </LinearLayout>

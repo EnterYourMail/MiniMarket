@@ -9,14 +9,14 @@ import com.example.minimarket.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Product::class, BasketItem::class], version = 1, exportSchema = false)
+@Database(entities = [Product::class, CartItem::class], version = 1, exportSchema = false)
 abstract class LocalDatabase : RoomDatabase() {
 
     abstract fun productDao(): ProductDao
-    abstract fun basketItemDao(): BasketItemDao
+    abstract fun basketItemDao(): CartItemDao
 
     private class LocalDatabaseCallback(private val scope: CoroutineScope) : RoomDatabase.Callback() {
-        fun prepopulateProduct(dao: ProductDao) {
+        suspend fun prepopulateProduct(dao: ProductDao) {
             val products = Array(20) { i ->
                 Product(
                     productId = i,

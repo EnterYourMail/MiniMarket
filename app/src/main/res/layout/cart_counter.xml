@@ -12,6 +12,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="bottom|start"
+        android:contentDescription="@string/cart_image_description"
         app:srcCompat="@drawable/ic_baseline_shopping_basket_24" />
 
     <TextView

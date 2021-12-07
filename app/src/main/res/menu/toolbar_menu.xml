@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:actionLayout="@layout/basket_counter"
+        android:actionLayout="@layout/cart_counter"
         android:title="basket"
         app:showAsAction="ifRoom" />
     <item

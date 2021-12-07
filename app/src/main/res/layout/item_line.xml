@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    tools:showIn="@layout/activity_main">
+    android:layout_margin="@dimen/margin_little">
 
     <ImageView
         android:id="@+id/ivProductImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="@dimen/margin_little"
+        android:layout_marginTop="@dimen/margin_little"
+        android:layout_marginBottom="@dimen/margin_little"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -43,8 +41,8 @@
         android:id="@+id/tvPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="@dimen/margin_little"
+        android:layout_marginBottom="@dimen/margin_little"
         android:text="100 р"
         android:textAppearance="@style/TextAppearance.MiniMarket.PriceProduct"
         app:layout_constraintBottom_toBottomOf="parent"
