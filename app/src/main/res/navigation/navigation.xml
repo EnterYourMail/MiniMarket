@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="com.example.minimarket.ui.list.ListFragment"
-        android:label="fragment_list"
-        tools:layout="@layout/fragment_list" >
+        android:label="@string/fragment_list_label"
+        tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/action_listFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
@@ -20,8 +20,8 @@
     <fragment
         android:id="@+id/productDetailsFragment"
         android:name="com.example.minimarket.ui.product_details.ProductDetailsFragment"
-        android:label="fragment_product_details"
-        tools:layout="@layout/fragment_product_details" >
+        android:label="@string/fragment_product_details_label"
+        tools:layout="@layout/fragment_product_details">
         <argument
             android:name="productId"
             app:argType="integer" />
@@ -32,6 +32,6 @@
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.example.minimarket.ui.cart.CartFragment"
-        android:label="fragment_cart"
+        android:label="@string/fragment_cart_label"
         tools:layout="@layout/fragment_cart" />
 </navigation>

@@ -14,4 +14,9 @@
     <string name="list_search_hint">Search</string>
     <string name="toolbar_title">Your\'s shop</string>
     <string name="cart_image_description">Cart icon</string>
+    <string name="fragment_list_label">Your\'s shop</string>
+    <string name="fragment_product_details_label">Product details</string>
+    <string name="fragment_cart_label">Cart</string>
+    <string name="menu_cart_title">Cart</string>
+    <string name="menu_layout_title">layout</string>
 </resources>

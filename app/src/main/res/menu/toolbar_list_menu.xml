@@ -3,11 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/cartFragment"
         android:actionLayout="@layout/cart_counter"
-        android:title="basket"
+        android:title="@string/menu_cart_title"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menu_layout"
         android:icon="@drawable/ic_baseline_linear_layout"
-        android:title="layout"
+        android:title="@string/menu_layout_title"
         app:showAsAction="ifRoom" />
 </menu>

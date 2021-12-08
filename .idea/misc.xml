@@ -23,7 +23,9 @@
         <entry key="app/src/main/res/layout/item_line.xml" value="0.33" />
         <entry key="app/src/main/res/layout/product_details_fragment.xml" value="0.12777777777777777" />
         <entry key="app/src/main/res/layout/template_list.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/toolbar_list_menu.xml" value="0.1712962962962963" />
         <entry key="app/src/main/res/menu/toolbar_menu.xml" value="0.5" />
+        <entry key="app/src/main/res/menu/toolbar_start_menu.xml" value="0.25" />
       </map>
     </option>
   </component>
