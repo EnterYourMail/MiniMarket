@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import com.example.minimarket.MiniMarketApplication
 import com.example.minimarket.R
+import com.example.minimarket.databinding.CartCounterBinding
 import com.example.minimarket.databinding.FragmentListBinding
 import com.example.minimarket.ui.MainActivityViewModel
 
@@ -18,9 +19,12 @@ class ListFragment : Fragment() {
     private var _binding: FragmentListBinding? = null
     private val binding: FragmentListBinding
         get() = _binding!!
+    private var bindingCartCounter: CartCounterBinding? = null
+
     private val viewModel: ListViewModel by viewModels{
         ListViewModel.ListViewModelFactory(
-            (application as MiniMarketApplication).repository)
+            (requireActivity().application as MiniMarketApplication).repository
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,27 +38,24 @@ class ListFragment : Fragment() {
     ): View {
         _binding = FragmentListBinding.inflate(inflater, container, false)
 
-        val actionView = binding.toolbar.menu.findItem(R.id.cartFragment).actionView
-        val tvCounter = actionView.findViewById<TextView>(R.id.tvCounter)
-        viewModel.basketCount.observe(this) {
-            if (it == 0 ) {
-                tvCounter.visibility = View.INVISIBLE
-            } else {
-                tvCounter.text = it.toString()
-                tvCounter.visibility = View.VISIBLE
-            }
-        }
-
         return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.toolbar_list_menu, menu)
         val item = menu.findItem(R.id.cartFragment)
-        val counterView = item.actionView
-        counterView.setOnClickListener {
+        val actionView = item.actionView
+        actionView.setOnClickListener {
             item.onNavDestinationSelected(findNavController())
         }
+
+        bindingCartCounter = CartCounterBinding.bind(actionView)
+        bindingCartCounter?.let { bindingCC ->
+            viewModel.basketCount.observe(this) {
+                setCounter(bindingCC.tvCounter, it)
+            }
+        }
+
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -65,6 +66,16 @@ class ListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        bindingCartCounter = null
+    }
+
+    private fun setCounter(tvCounter: TextView, i: Int) {
+        if ( i == 0 ) {
+            tvCounter.visibility = View.INVISIBLE
+        } else {
+            tvCounter.text = i.toString()
+            tvCounter.visibility = View.VISIBLE
+        }
     }
 
 }

@@ -58,7 +58,9 @@ dependencies {
 
     def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     def groupie_version = '2.10.0'
     implementation "com.github.lisawray.groupie:groupie:$groupie_version"
@@ -66,9 +68,11 @@ dependencies {
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.core:core-ktx:1.7.0'
+
     def std_lib = '1.4.0'
     implementation "androidx.appcompat:appcompat:$std_lib"
     implementation "com.google.android.material:material:$std_lib"
+
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

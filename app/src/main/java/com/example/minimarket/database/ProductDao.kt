@@ -15,10 +15,10 @@ interface ProductDao {
     fun getById(id: Int): Flow<Product>
 
     @Insert
-    suspend fun insertAll(vararg products: Product)
+    fun insertAll(vararg products: Product)
 
-    @Delete
-    suspend fun deleteAll()
+    //@Query("DELETE FROM products")
+    //fun deleteAll()
 
     @Transaction
     @Query("SELECT * FROM products WHERE productId = :productId")
