@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 abstract class LocalDatabase : RoomDatabase() {
 
     abstract fun productDao(): ProductDao
-    abstract fun basketItemDao(): CartItemDao
+    abstract fun cartDao(): CartDao
 
     private class LocalDatabaseCallback(private val scope: CoroutineScope) : RoomDatabase.Callback() {
         suspend fun prepopulateProduct(dao: ProductDao) {

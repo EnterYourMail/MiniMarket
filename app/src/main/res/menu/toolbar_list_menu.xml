@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/cartFragment"
-        android:actionLayout="@layout/cart_counter"
+        app:actionLayout="@layout/cart_counter"
         android:title="@string/menu_cart_title"
         app:showAsAction="ifRoom" />
     <item

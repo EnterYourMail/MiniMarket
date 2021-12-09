@@ -4,12 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.14537037037037037" />
+        <entry key="app/src/main/res/drawable/cart_counter_selector.xml" value="0.14722222222222223" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.14166666666666666" />
         <entry key="app/src/main/res/drawable/ic_baseline_linear_layout.xml" value="0.17777777777777778" />
         <entry key="app/src/main/res/drawable/ic_baseline_remove_24.xml" value="0.14166666666666666" />
         <entry key="app/src/main/res/drawable/ic_baseline_shopping_basket_24.xml" value="0.2953703703703704" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.14537037037037037" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/basket_counter.xml" value="0.67" />
         <entry key="app/src/main/res/layout/basket_fragment.xml" value="0.1175925925925926" />
         <entry key="app/src/main/res/layout/cart_counter.xml" value="0.33" />

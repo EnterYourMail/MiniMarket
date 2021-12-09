@@ -1,18 +1,20 @@
 package com.example.minimarket.repository
 
 import com.example.minimarket.database.CartItem
-import com.example.minimarket.database.CartItemDao
+import com.example.minimarket.database.CartDao
 import com.example.minimarket.database.Product
 import com.example.minimarket.database.ProductDao
 import kotlinx.coroutines.flow.Flow
 
 class Repository(
     private val productDao: ProductDao,
-    private val cartItemDao: CartItemDao
+    private val cartDao: CartDao
 ) {
 
     val products: Flow<List<Product>>
         get() = productDao.getAll()
+    val cartCount: Flow<Int>
+        get() = cartDao.getCount()
 
     //fun getProduct(productId: Int) = productDao.getById(productId)
 
@@ -21,9 +23,9 @@ class Repository(
     suspend fun setProductQuantity(productId: Int, quantity: Int) {
         val basketItem = CartItem(productId, quantity)
         if (quantity > 0) {
-            cartItemDao.replaceItem(basketItem)
+            cartDao.replaceItem(basketItem)
         } else {
-            cartItemDao.deleteItem(basketItem)
+            cartDao.deleteItem(basketItem)
         }
     }
 
@@ -31,7 +33,7 @@ class Repository(
 
     fun getBasket() = productDao.getBasket()
 
-    suspend fun emptyBasket() = cartItemDao.deleteAll()
+    suspend fun emptyBasket() = cartDao.deleteAll()
 
 
 }
