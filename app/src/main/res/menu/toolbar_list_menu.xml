@@ -9,7 +9,16 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_layout"
-        android:icon="@drawable/ic_baseline_linear_layout"
+        android:icon="@drawable/ic_baseline_linear_layout_24"
         android:title="@string/menu_layout_title"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_delete_all"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/menu_delete_all_title"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_prepopulate"
+        android:title="@string/menu_prepopulate_title"
+        app:showAsAction="never" />
 </menu>

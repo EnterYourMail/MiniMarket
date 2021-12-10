@@ -4,9 +4,8 @@ import android.view.View
 import com.example.minimarket.R
 import com.example.minimarket.database.Product
 import com.example.minimarket.databinding.ItemCellBinding
-import com.xwray.groupie.viewbinding.BindableItem
 
-class ListItemCell(private val product: Product) : BindableItem<ItemCellBinding>() {
+class ListItemCell(product: Product): ListItem<ItemCellBinding>(product) {
     override fun getLayout() = R.layout.item_cell
 
     override fun bind(binding: ItemCellBinding, position: Int) {
@@ -19,4 +18,5 @@ class ListItemCell(private val product: Product) : BindableItem<ItemCellBinding>
     override fun initializeViewBinding(view: View): ItemCellBinding {
         return ItemCellBinding.bind(view)
     }
+
 }

@@ -60,6 +60,7 @@ abstract class LocalDatabase : RoomDatabase() {
                 )
                     .addCallback(LocalDatabaseCallback(scope))
                     .build()
+
                 INSTANCE = instance
                 // return instance
                 instance

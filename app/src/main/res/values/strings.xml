@@ -19,4 +19,6 @@
     <string name="fragment_cart_label">Cart</string>
     <string name="menu_cart_title">Cart</string>
     <string name="menu_layout_title">layout</string>
+    <string name="menu_delete_all_title">Delete all</string>
+    <string name="menu_prepopulate_title">Prepopulate</string>
 </resources>

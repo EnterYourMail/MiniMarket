@@ -12,11 +12,11 @@ interface CartDao {
     fun getCount(): Flow<Int>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun replaceItem(item: CartItem)
+    suspend fun replaceItem(item: CartItem)
 
     @Delete
-    fun deleteItem(item: CartItem)
+    suspend fun deleteItem(item: CartItem)
 
     @Query("DELETE FROM basket")
-    fun deleteAll()
+    suspend fun deleteAll()
 }
