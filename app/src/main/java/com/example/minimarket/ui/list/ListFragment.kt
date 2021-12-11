@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewbinding.ViewBinding
 import com.example.minimarket.MiniMarketApplication
 import com.example.minimarket.R
+import com.example.minimarket.base.ViewModelFactory
 import com.example.minimarket.database.Product
 import com.example.minimarket.databinding.CartCounterBinding
 import com.example.minimarket.databinding.FragmentListBinding
@@ -29,16 +30,18 @@ class ListFragment : Fragment() {
         const val LAYOUT_TYPE_LINEAR = 1
         const val LAYOUT_KEY_NAME = "LAYOUT_TYPE"
     }
+
     private var _binding: FragmentListBinding? = null
     private val binding: FragmentListBinding
         get() = _binding!!
     //private var bindingCartCounter: CartCounterBinding? = null
 
     private val sPref: SharedPreferences by lazy {
-        requireActivity().getPreferences(Context.MODE_PRIVATE)}
+        requireActivity().getPreferences(Context.MODE_PRIVATE)
+    }
 
     private val viewModel: ListViewModel by viewModels {
-        ListViewModel.ListViewModelFactory(
+        ViewModelFactory(
             (requireActivity().application as MiniMarketApplication).repository
         )
     }
@@ -60,7 +63,7 @@ class ListFragment : Fragment() {
             setOnItemClickListener(onItemClickListener)
         }
         binding.rvList.adapter = groupAdapter
-        initRecycleView()
+        initRecycleViewAndIcon(null)
 
         return binding.root
     }
@@ -69,16 +72,20 @@ class ListFragment : Fragment() {
         inflater.inflate(R.menu.toolbar_list_menu, menu)
         val cartItem = menu.findItem(R.id.cartFragment)
         val actionView = cartItem.actionView
-        // onOptionsItemSelected isn't called for custom action view.
+        // onOptionsItemSelected isn't called for a custom action view.
         actionView.setOnClickListener {
             cartItem.onNavDestinationSelected(findNavController())
         }
 
         CartCounterBinding.bind(actionView).let { bindingCC ->
-            viewModel.basketCount.observe(this) { i ->
+            viewModel.cartCount.observe(this) { i ->
                 setCounter(bindingCC.tvCounter, i)
             }
         }
+
+        val layoutType = sPref.getInt(LAYOUT_KEY_NAME, LAYOUT_TYPE_GRID)
+        val layoutItem = menu.findItem(R.id.menu_layout)
+        setMenuItemIcon(layoutItem, layoutType)
 
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -89,17 +96,11 @@ class ListFragment : Fragment() {
                 viewModel.products.removeObservers(viewLifecycleOwner)
                 val edPrefs = sPref.edit()
                 when (sPref.getInt(LAYOUT_KEY_NAME, LAYOUT_TYPE_GRID)) {
-                    LAYOUT_TYPE_GRID -> {
-                        edPrefs.putInt(LAYOUT_KEY_NAME, LAYOUT_TYPE_LINEAR)
-                        item.setIcon(R.drawable.ic_baseline_linear_layout_24)
-                    }
-                    else -> {
-                        edPrefs.putInt(LAYOUT_KEY_NAME, LAYOUT_TYPE_GRID)
-                        item.setIcon(R.drawable.ic_baseline_grid_24)
-                    }
+                    LAYOUT_TYPE_GRID -> edPrefs.putInt(LAYOUT_KEY_NAME, LAYOUT_TYPE_LINEAR)
+                    else -> edPrefs.putInt(LAYOUT_KEY_NAME, LAYOUT_TYPE_GRID)
                 }
                 edPrefs.apply()
-                initRecycleView()
+                initRecycleViewAndIcon(item)
             }
             R.id.menu_delete_all -> viewModel.deleteAllProducts()
             R.id.menu_prepopulate -> viewModel.prepopulate()
@@ -114,7 +115,7 @@ class ListFragment : Fragment() {
     }
 
     private fun setCounter(tvCounter: TextView, i: Int) {
-        if ( i == 0 ) {
+        if (i == 0) {
             tvCounter.visibility = View.INVISIBLE
             tvCounter.text = ""
         } else {
@@ -131,11 +132,11 @@ class ListFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun initRecycleView() {
+    private fun initRecycleViewAndIcon(menuItem: MenuItem?) {
         val layoutType = sPref.getInt(LAYOUT_KEY_NAME, LAYOUT_TYPE_GRID)
-        val listItem: (data: Product) -> ( ListItem<out ViewBinding>)
+        val listItem: (data: Product) -> (ListItem<out ViewBinding>)
 
-        if ( layoutType == LAYOUT_TYPE_GRID ) {
+        if (layoutType == LAYOUT_TYPE_GRID) {
             listItem = { ListItemCell(it) }
             binding.rvList.layoutManager = GridLayoutManager(context, 2)
         } else {
@@ -143,11 +144,20 @@ class ListFragment : Fragment() {
             binding.rvList.layoutManager = LinearLayoutManager(context)
         }
 
+        menuItem?.let { setMenuItemIcon(menuItem, layoutType) }
         viewModel.products.observe(viewLifecycleOwner) {
-            groupAdapter.update( it.map { product -> listItem(product) } )
+            groupAdapter.update(it.map { product -> listItem(product) })
         }
     }
 
+    private fun setMenuItemIcon(menuItem: MenuItem, layoutType: Int) {
+        if (layoutType == LAYOUT_TYPE_GRID) {
+            menuItem.setIcon(R.drawable.ic_baseline_grid_24)
+        } else {
+            menuItem.setIcon(R.drawable.ic_baseline_linear_layout_24)
+        }
+
+    }
 /*    private fun listItemByLayout(layoutType: Int): (data: Product) -> (ListItem<out ViewBinding>) {
         return when(layoutType) {
             LAYOUT_TYPE_GRID -> { data: Product -> ListItemCell(data) }

@@ -20,11 +20,8 @@ interface ProductDao {
     @Query("DELETE FROM products")
     suspend fun deleteAll()
 
-    @Transaction
+/*    @Transaction
     @Query("SELECT * FROM products WHERE productId = :productId")
-    fun getProductDetails(productId: Int): Flow<ProductDetails>
+    fun getProductDetails(productId: Int): Flow<ProductDetails>*/
 
-    @Transaction
-    @Query("SELECT * FROM products")
-    fun getBasket(): Flow<List<ProductDetails>>
 }

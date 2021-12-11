@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_little"
@@ -26,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:text='Шоколад "Аленка"'
+        android:hint="@string/product_details_product_hint"
         android:textAppearance="@style/TextAppearance.MiniMarket.TitleProduct" />
 
     <TextView
@@ -36,7 +35,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/margin_little"
         android:gravity="center"
-        android:text='Фабрика "Красный октябрь"'
+        android:hint="@string/product_details_producer_hint"
         android:textAppearance="@style/TextAppearance.MiniMarket.TitleProducer" />
 
     <TextView
@@ -46,7 +45,7 @@
         android:layout_gravity="end"
         android:layout_marginBottom="@dimen/margin_little"
         android:layout_marginEnd="@dimen/margin_little"
-        android:text="100 р"
+        android:hint="@string/product_details_price_hint"
         android:textAppearance="@style/TextAppearance.MiniMarket.PriceProduct" />
 
 </LinearLayout>

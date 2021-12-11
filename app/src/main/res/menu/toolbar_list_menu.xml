@@ -13,6 +13,10 @@
         android:title="@string/menu_layout_title"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menu_test"
+        android:title="@string/menu_test_title"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/menu_delete_all"
         android:icon="@android:drawable/ic_menu_delete"
         android:title="@string/menu_delete_all_title"

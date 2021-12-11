@@ -5,25 +5,28 @@ import com.example.minimarket.database.CartItem
 import com.example.minimarket.database.CartDao
 import com.example.minimarket.database.Product
 import com.example.minimarket.database.ProductDao
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.map
 
 class Repository(
     private val productDao: ProductDao,
     private val cartDao: CartDao
 ) {
 
-    val products: Flow<List<Product>>
-        get() = productDao.getAll()
-    val cartCount: Flow<Int>
-        get() = cartDao.getCount()
+    val products = productDao.getAll()
+    val cartCount = cartDao.getCount().map { it ?: 0 }
+    val basket = cartDao.getBasket()
 
-    //fun getProduct(productId: Int) = productDao.getById(productId)
+    fun getProduct(productId: Int) = productDao.getById(productId)
 
-    suspend fun deleteAll() = productDao.deleteAll()
+    //fun getProductDetails(productId: Int) = productDao.getProductDetails(productId)
 
-    fun findProducts(name: String) = productDao.findByName(name)
+    fun getProductQuantity(productId: Int): Flow<Int> {
+        return cartDao.getItemQuantity(productId).map { it ?: 0 }
+    }
+
+    //suspend fun getProductQuantityNow(productId: Int) =
+    //cartDao.getItemQuantityNow(productId) ?: 0
 
     suspend fun setProductQuantity(productId: Int, quantity: Int) {
         val basketItem = CartItem(productId, quantity)
@@ -34,11 +37,12 @@ class Repository(
         }
     }
 
-    fun getProductDetails(productId: Int) = productDao.getProductDetails(productId)
-
-    fun getBasket() = productDao.getBasket()
+    fun findProducts(name: String) = productDao.findByName(name)
 
     suspend fun emptyBasket() = cartDao.deleteAll()
+
+    // For test
+    suspend fun deleteAll() = productDao.deleteAll()
 
     suspend fun prepopulateProduct() {
         val products = Array(20) { i ->
