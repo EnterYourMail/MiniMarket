@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -64,6 +65,17 @@ class ListFragment : Fragment() {
         }
         binding.rvList.adapter = groupAdapter
         initRecycleViewAndIcon(null)
+        
+        binding.edListSearch.setOnEditorActionListener { v, actionId, _ ->
+            viewModel.findProducts(v.text.toString())
+            true
+//            if ( actionId == EditorInfo.IME_ACTION_SEARCH ) {
+//                viewModel.findProducts(v.text.toString())
+//                true
+//            } else {
+//                false
+//            }
+        }
 
         return binding.root
     }
@@ -158,6 +170,7 @@ class ListFragment : Fragment() {
         }
 
     }
+
 /*    private fun listItemByLayout(layoutType: Int): (data: Product) -> (ListItem<out ViewBinding>) {
         return when(layoutType) {
             LAYOUT_TYPE_GRID -> { data: Product -> ListItemCell(data) }

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    //id 'kotlin-android-extensions'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
 }
@@ -53,8 +54,10 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
 
-    //implementation 'com.google.dagger:dagger:2.x'
-    //kapt 'com.google.dagger:dagger-compiler:2.x'
+    def dagger_version = "2.40"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
     def room_version = "2.4.0-rc01"
     implementation "androidx.room:room-runtime:$room_version"
@@ -72,6 +75,7 @@ dependencies {
     def std_lib = '1.4.0'
     implementation "androidx.appcompat:appcompat:$std_lib"
     implementation "com.google.android.material:material:$std_lib"
+    implementation "androidx.fragment:fragment-ktx:$std_lib"
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     testImplementation 'junit:junit:4.+'

@@ -1,14 +1,15 @@
 package com.example.minimarket.repository
 
 import com.example.minimarket.R
-import com.example.minimarket.database.CartItem
 import com.example.minimarket.database.CartDao
+import com.example.minimarket.database.CartItem
 import com.example.minimarket.database.Product
 import com.example.minimarket.database.ProductDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class Repository(
+class Repository @Inject constructor(
     private val productDao: ProductDao,
     private val cartDao: CartDao
 ) {
@@ -42,7 +43,7 @@ class Repository(
     suspend fun emptyBasket() = cartDao.deleteAll()
 
     // For test
-    suspend fun deleteAll() = productDao.deleteAll()
+    suspend fun deleteAllProducts() = productDao.deleteAll()
 
     suspend fun prepopulateProduct() {
         val products = Array(20) { i ->
