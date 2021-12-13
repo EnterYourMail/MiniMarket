@@ -1,10 +1,12 @@
 package com.example.minimarket.ui.product_details
 
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.minimarket.repository.Repository
 import kotlinx.coroutines.launch
 
-class ProductDetailsViewModel(
+class ProductDetailsViewModel (
     private val repository: Repository,
     private val productId: Int
 ) : ViewModel() {
@@ -27,4 +29,5 @@ class ProductDetailsViewModel(
             if (it > 0) setQuantity(it - 1)
         }
     }
+
 }

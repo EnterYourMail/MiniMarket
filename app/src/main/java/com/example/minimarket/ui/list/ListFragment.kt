@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
-import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -24,6 +24,7 @@ import com.example.minimarket.ui.list.item.ListItemCell
 import com.example.minimarket.ui.list.item.ListItemLine
 import com.xwray.groupie.GroupieAdapter
 import com.xwray.groupie.OnItemClickListener
+import javax.inject.Inject
 
 class ListFragment : Fragment() {
     companion object {
@@ -37,21 +38,26 @@ class ListFragment : Fragment() {
         get() = _binding!!
     //private var bindingCartCounter: CartCounterBinding? = null
 
-    private val sPref: SharedPreferences by lazy {
-        requireActivity().getPreferences(Context.MODE_PRIVATE)
-    }
+    @Inject
+    lateinit var sPref: SharedPreferences
 
+    @Inject
+    lateinit var viewModelFactoryFactory: ViewModelFactory.Factory
     private val viewModel: ListViewModel by viewModels {
-        ViewModelFactory(
-            (requireActivity().application as MiniMarketApplication).repository
-        )
+        viewModelFactoryFactory.create()
     }
 
     private lateinit var groupAdapter: GroupieAdapter
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as MiniMarketApplication)
+            .appComponent.inject(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -65,17 +71,12 @@ class ListFragment : Fragment() {
         }
         binding.rvList.adapter = groupAdapter
         initRecycleViewAndIcon(null)
-        
-        binding.edListSearch.setOnEditorActionListener { v, actionId, _ ->
-            viewModel.findProducts(v.text.toString())
-            true
-//            if ( actionId == EditorInfo.IME_ACTION_SEARCH ) {
-//                viewModel.findProducts(v.text.toString())
-//                true
-//            } else {
-//                false
-//            }
+
+        binding.edListSearch.doOnTextChanged { text, _, _, _ ->
+            viewModel.findProducts(text.toString())
         }
+
+//        binding.edListSearch.setOnEditorActionListener { v, actionId, _ -> }
 
         return binding.root
     }

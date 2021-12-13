@@ -7,10 +7,13 @@ import com.example.minimarket.ui.cart.CartViewModel
 import com.example.minimarket.ui.list.ListViewModel
 import com.example.minimarket.ui.product_details.ProductDetailsViewModel
 import com.example.minimarket.ui.product_details.ProductDetailsViewState
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-class ViewModelFactory(
+class ViewModelFactory @AssistedInject constructor(
     private val repository: Repository,
-    private val productId: Int? = null
+    @Assisted private val productId: Int?
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         when (modelClass) {
@@ -26,5 +29,10 @@ class ViewModelFactory(
 
         throw IllegalArgumentException("Unknown ViewModel class")
 
+    }
+
+    @AssistedFactory
+    interface  Factory {
+        fun create(productId: Int? = null): ViewModelFactory
     }
 }

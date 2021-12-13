@@ -1,17 +1,20 @@
 package com.example.minimarket.ui.product_details
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.minimarket.MiniMarketApplication
 import com.example.minimarket.base.ViewModelFactory
+import com.example.minimarket.database.Product
 import com.example.minimarket.databinding.FragmentProductDetailsBinding
+import javax.inject.Inject
 
 class ProductDetailsFragment : Fragment() {
 
@@ -19,17 +22,21 @@ class ProductDetailsFragment : Fragment() {
     private val binding
         get() = _binding!!
     private val args by navArgs<ProductDetailsFragmentArgs>()
+
+    @Inject
+    lateinit var viewModelFactoryFactory: ViewModelFactory.Factory
+
     private val viewState: ProductDetailsViewState by viewModels {
-        ViewModelFactory(
-            (requireActivity().application as MiniMarketApplication).repository,
-            args.productId
-        )
+        viewModelFactoryFactory.create(args.productId)
     }
     private val viewModel: ProductDetailsViewModel by viewModels {
-        ViewModelFactory(
-            (requireActivity().application as MiniMarketApplication).repository,
-            args.productId
-        )
+        viewModelFactoryFactory.create(args.productId)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as MiniMarketApplication)
+            .appComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -37,20 +44,7 @@ class ProductDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProductDetailsBinding.inflate(inflater, container, false)
-        viewState.product.observe(viewLifecycleOwner) {
-            with(it) {
-                binding.tvProduct.text = name
-                binding.tvProducer.text = producer
-                val text = """
-                    |Белки: $protein г
-                    |Жиры: $fat г
-                    |Углеводы: $carbohydrates г
-                    |Калорийность: $calories кКал
-                    """.trimMargin()
-                binding.tvDetails.text = text
-                binding.tvPrice.text = price.toString()
-            }
-        }
+        viewState.product.observe(viewLifecycleOwner) { setStateView(it) }
 
         viewModel.quantity.observe(viewLifecycleOwner) {
             binding.etQuantity.setText(it.toString())
@@ -76,5 +70,19 @@ class ProductDetailsFragment : Fragment() {
         return binding.root
     }
 
+    private fun setStateView(product: Product) {
+        with(product) {
+            binding.tvProduct.text = name
+            binding.tvProducer.text = producer
+            val text = """
+                    |Белки: $protein г
+                    |Жиры: $fat г
+                    |Углеводы: $carbohydrates г
+                    |Калорийность: $calories кКал
+                    """.trimMargin()
+            binding.tvDetails.text = text
+            binding.tvPrice.text = price.toString()
+        }
+    }
 
 }

@@ -8,7 +8,9 @@ import com.example.minimarket.database.ProductDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class Repository @Inject constructor(
     private val productDao: ProductDao,
     private val cartDao: CartDao

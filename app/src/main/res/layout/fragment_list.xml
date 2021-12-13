@@ -14,8 +14,7 @@
         android:autofillHints="@string/list_search_hint"
         android:hint="@string/list_search_hint"
         android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:imeOptions="actionSearch"/>
+        android:minHeight="48dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvList"

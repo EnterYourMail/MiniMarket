@@ -4,7 +4,6 @@
     <string name="plus_description">Increase quantity by one</string>
     <string name="minus_description">Decrease quantity by one</string>
     <string name="add_to_cart">to cart</string>
-    <string name="quantity_description">quantity</string>
     <string name="product_image_description">Product image</string>
     <string name="product_quantity_hint">0</string>
     <string name="cart_title">Cart:</string>

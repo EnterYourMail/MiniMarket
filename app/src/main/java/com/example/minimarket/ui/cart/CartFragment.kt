@@ -1,10 +1,11 @@
 package com.example.minimarket.ui.cart
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.example.minimarket.MiniMarketApplication
@@ -12,6 +13,7 @@ import com.example.minimarket.R
 import com.example.minimarket.base.ViewModelFactory
 import com.example.minimarket.databinding.FragmentCartBinding
 import com.google.android.material.snackbar.Snackbar
+import javax.inject.Inject
 
 class CartFragment : Fragment() {
 
@@ -19,10 +21,16 @@ class CartFragment : Fragment() {
     private val binding
         get() = _binding!!
 
+    @Inject
+    lateinit var viewModelFactoryFactory: ViewModelFactory.Factory
     private val viewModel: CartViewModel by viewModels {
-        ViewModelFactory(
-            (requireActivity().application as MiniMarketApplication).repository
-        )
+        viewModelFactoryFactory.create()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity().application as MiniMarketApplication)
+            .appComponent.inject(this)
     }
 
     override fun onCreateView(
