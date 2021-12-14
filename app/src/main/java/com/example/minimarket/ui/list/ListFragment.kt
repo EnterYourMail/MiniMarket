@@ -70,6 +70,7 @@ class ListFragment : Fragment() {
             setOnItemClickListener(onItemClickListener)
         }
         binding.rvList.adapter = groupAdapter
+        // cartItem creates at onCreateOptionsMenu, so menuItem = null
         initRecycleViewAndIcon(null)
 
         binding.edListSearch.doOnTextChanged { text, _, _, _ ->
@@ -90,9 +91,9 @@ class ListFragment : Fragment() {
             cartItem.onNavDestinationSelected(findNavController())
         }
 
-        CartCounterBinding.bind(actionView).let { bindingCC ->
+        CartCounterBinding.bind(actionView).let { bindingCartCounter ->
             viewModel.cartCount.observe(this) { i ->
-                setCounter(bindingCC.tvCounter, i)
+                setCounter(bindingCartCounter.tvCounter, i)
             }
         }
 
@@ -119,12 +120,6 @@ class ListFragment : Fragment() {
             R.id.menu_prepopulate -> viewModel.prepopulate()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        //bindingCartCounter = null
     }
 
     private fun setCounter(tvCounter: TextView, i: Int) {
@@ -158,6 +153,7 @@ class ListFragment : Fragment() {
         }
 
         menuItem?.let { setMenuItemIcon(menuItem, layoutType) }
+
         viewModel.products.observe(viewLifecycleOwner) {
             groupAdapter.update(it.map { product -> listItem(product) })
         }
@@ -170,6 +166,12 @@ class ListFragment : Fragment() {
             menuItem.setIcon(R.drawable.ic_baseline_linear_layout_24)
         }
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        //bindingCartCounter = null
     }
 
 /*    private fun listItemByLayout(layoutType: Int): (data: Product) -> (ListItem<out ViewBinding>) {

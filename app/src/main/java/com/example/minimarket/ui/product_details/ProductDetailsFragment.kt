@@ -52,9 +52,9 @@ class ProductDetailsFragment : Fragment() {
 
         binding.etQuantity.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewModel.setQuantity(
-                    binding.etQuantity.text.toString().toInt()
-                )
+                binding.etQuantity.text.toString().toIntOrNull()?.let {
+                    viewModel.setQuantity(it)
+                }
                 true
             } else false
         }
