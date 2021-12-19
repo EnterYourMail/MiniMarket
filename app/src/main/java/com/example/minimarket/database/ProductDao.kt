@@ -10,6 +10,9 @@ interface ProductDao {
     @Query("SELECT * FROM products")
     fun getAll(): Flow<List<Product>>
 
+    @Query("SELECT * FROM products")
+    suspend fun getAllOnce(): List<Product>
+
     @Query("SELECT * FROM products WHERE name LIKE '%' || :text || '%'")
     fun findByName(text: String): Flow<List<Product>>
 
@@ -22,8 +25,7 @@ interface ProductDao {
     @Query("DELETE FROM products")
     suspend fun deleteAll()
 
-/*    @Transaction
-    @Query("SELECT * FROM products WHERE productId = :productId")
-    fun getProductDetails(productId: Int): Flow<ProductDetails>*/
+
+
 
 }

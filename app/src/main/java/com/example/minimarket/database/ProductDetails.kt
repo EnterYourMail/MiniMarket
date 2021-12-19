@@ -7,5 +7,5 @@ data class ProductDetails(
     @Embedded
     val product: Product,
     @Relation(parentColumn = "productId", entityColumn = "productId")
-    val cartItem: CartItem
+    val cartItem: CartItem?
 )

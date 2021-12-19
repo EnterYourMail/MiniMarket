@@ -5,7 +5,8 @@ import com.example.minimarket.database.CartDao
 import com.example.minimarket.database.CartItem
 import com.example.minimarket.database.Product
 import com.example.minimarket.database.ProductDao
-import kotlinx.coroutines.flow.Flow
+import com.example.minimarket.ui.list.LayoutType
+import com.example.minimarket.utils.SharedPreferencesHelper
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,23 +14,25 @@ import javax.inject.Singleton
 @Singleton
 class Repository @Inject constructor(
     private val productDao: ProductDao,
-    private val cartDao: CartDao
+    private val cartDao: CartDao,
+    private val sPref: SharedPreferencesHelper
 ) {
 
     val products = productDao.getAll()
     val cartCount = cartDao.getCount().map { it ?: 0 }
-    val basket = cartDao.getBasket()
+    val cart = cartDao.getCart()
 
-    fun getProduct(productId: Int) = productDao.getById(productId)
+    //suspend fun getCartCount() = cartDao.getCountOnce() ?: 0
 
-    //fun getProductDetails(productId: Int) = productDao.getProductDetails(productId)
+    //suspend fun getProducts() = productDao.getAllOnce()
 
-    fun getProductQuantity(productId: Int): Flow<Int> {
-        return cartDao.getItemQuantity(productId).map { it ?: 0 }
-    }
+    fun getProductDetails(productId: Int) = cartDao.getProductDetails(productId)
 
-    //suspend fun getProductQuantityNow(productId: Int) =
-    //cartDao.getItemQuantityNow(productId) ?: 0
+//    fun getProduct(productId: Int) = productDao.getById(productId)
+//
+//    fun getProductQuantity(productId: Int): Flow<Int> {
+//        return cartDao.getItemQuantity(productId).map { it ?: 0 }
+//    }
 
     suspend fun setProductQuantity(productId: Int, quantity: Int) {
         val basketItem = CartItem(productId, quantity)
@@ -42,7 +45,16 @@ class Repository @Inject constructor(
 
     fun findProducts(name: String) = productDao.findByName(name)
 
-    suspend fun emptyBasket() = cartDao.deleteAll()
+    suspend fun emptyCart() = cartDao.deleteAll()
+
+    // Shared preferences
+    fun getLayoutType() = LayoutType.getByCode(
+        sPref.getInt(SharedPreferencesHelper.LAYOUT_TYPE, LayoutType.GRID.code)
+    )
+
+    fun setLayoutType(layoutType: LayoutType) = sPref.putInt(
+        SharedPreferencesHelper.LAYOUT_TYPE, layoutType.code
+    )
 
     // For test
     suspend fun deleteAllProducts() = productDao.deleteAll()

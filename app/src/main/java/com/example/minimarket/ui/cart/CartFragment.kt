@@ -5,21 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.example.minimarket.MiniMarketApplication
 import com.example.minimarket.R
+import com.example.minimarket.base.BaseFragment
 import com.example.minimarket.base.ViewModelFactory
 import com.example.minimarket.databinding.FragmentCartBinding
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-class CartFragment : Fragment() {
+class CartFragment : BaseFragment() {
 
-    private var _binding: FragmentCartBinding? = null
-    private val binding
-        get() = _binding!!
+    private lateinit var binding: FragmentCartBinding
 
     @Inject
     lateinit var viewModelFactoryFactory: ViewModelFactory.Factory
@@ -34,43 +31,43 @@ class CartFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCartBinding.inflate(inflater, container, false)
-
-        viewModel.cart.observe(viewLifecycleOwner) { productDetails ->
-            var total = 0
-
-            val list: List<String> = productDetails.map {
-                total += (it.product.price * it.cartItem.quantity)
-                with(it.product) {
-                    "$name $price Р х ${it.cartItem.quantity} = ${price * it.cartItem.quantity} Р"
-                }
-            }
-
-            binding.tvCartDetails.text = list.joinToString("\n")
-            binding.tvCartTotal.text = ("$total Р")
-        }
-
-        binding.btCartPay.setOnClickListener {
-            viewModel.cartCount.observe(viewLifecycleOwner, object : Observer<Int> {
-                override fun onChanged(t: Int?) {
-                    if (t ?: 0 > 0) {
-                        viewModel.cartCount.removeObserver(this)
-                        viewModel.pay()
-                        Snackbar.make(
-                            binding.root,
-                            R.string.message_paid_successfully,
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            })
-        }
-
-        return binding.root
+    ): View? {
+        return inflater.inflate(R.layout.fragment_cart, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentCartBinding.bind(view)
+        initToolbar(binding.cartToolbar)
 
+        viewModel.viewState.observe(viewLifecycleOwner, ::observeViewState)
+
+        binding.cartPayButton.setOnClickListener {
+            viewModel.pay()
+            Snackbar.make(binding.root, R.string.message_paid_successfully, Snackbar.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+    private fun observeViewState(viewState: CartViewState) {
+        val list: List<String> = viewState.listCartDetails.map {
+            getString(
+                R.string.cart_details_line,
+                it.product.name,
+                it.product.price,
+                it.cartItem.quantity,
+                it.product.price * it.cartItem.quantity
+            )
+        }
+
+        binding.cartDetailsText.text = list.joinToString("\n")
+        binding.cartTotalText.text = getString(
+            R.string.cart_total_text,
+            viewState.cartTotal
+        )
+        binding.cartPayButton.isEnabled = viewState.isPayButtonEnable
+    }
 }

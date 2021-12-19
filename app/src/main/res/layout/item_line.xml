@@ -6,7 +6,7 @@
     android:layout_margin="@dimen/margin_little">
 
     <ImageView
-        android:id="@+id/ivProductImage"
+        android:id="@+id/item_line_product_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_little"
@@ -16,32 +16,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background"
-        android:contentDescription="@string/product_image_description" />
+        android:contentDescription="@string/product_details_product_image_description" />
 
     <TextView
-        android:id="@+id/tvProduct"
+        android:id="@+id/item_line_product_title"
         style="@style/Widget.MaterialComponents.TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_little"
         android:textAppearance="@style/TextAppearance.MiniMarket.TitleProduct"
-        app:layout_constraintStart_toEndOf="@+id/ivProductImage"
-        app:layout_constraintTop_toTopOf="@+id/ivProductImage"
+        app:layout_constraintStart_toEndOf="@+id/item_line_product_image"
+        app:layout_constraintTop_toTopOf="@+id/item_line_product_image"
         android:hint="@string/product_details_product_hint"/>
 
     <TextView
-        android:id="@+id/tvProducer"
+        android:id="@+id/item_line_producer_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_little"
         android:layout_marginEnd="@dimen/margin_little"
         android:textAppearance="@style/TextAppearance.MiniMarket.TitleProducer"
-        app:layout_constraintStart_toStartOf="@id/tvProduct"
-        app:layout_constraintTop_toBottomOf="@+id/tvProduct"
+        app:layout_constraintStart_toStartOf="@id/item_line_product_title"
+        app:layout_constraintTop_toBottomOf="@+id/item_line_product_title"
         android:hint="@string/product_details_producer_hint" />
 
     <TextView
-        android:id="@+id/tvPrice"
+        android:id="@+id/item_line_price_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_little"

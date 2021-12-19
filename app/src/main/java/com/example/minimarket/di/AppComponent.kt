@@ -18,11 +18,12 @@ interface AppComponent {
     interface Factory {
         fun create(
             @BindsInstance context: Context,
-            @BindsInstance scope: CoroutineScope
+            @BindsInstance scope: CoroutineScope,
         ): AppComponent
     }
 
     fun inject(fragment: ListFragment)
     fun inject(fragment: ProductDetailsFragment)
     fun inject(fragment: CartFragment)
+
 }

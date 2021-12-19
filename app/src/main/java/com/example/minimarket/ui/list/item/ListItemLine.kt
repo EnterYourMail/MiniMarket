@@ -9,10 +9,10 @@ class ListItemLine(product: Product): ListItem<ItemLineBinding>(product) {
     override fun getLayout() = R.layout.item_line
 
     override fun bind(binding: ItemLineBinding, position: Int) {
-        binding.ivProductImage.setImageResource(product.imageResource)
-        binding.tvProduct.text = product.name
-        binding.tvProducer.text = product.producer
-        binding.tvPrice.text = product.price.toString()
+        binding.itemLineProductImage.setImageResource(product.imageResource)
+        binding.itemLineProductTitle.text = product.name
+        binding.itemLineProducerTitle.text = product.producer
+        binding.itemLinePriceText.text = product.price.toString()
     }
 
     override fun initializeViewBinding(view: View): ItemLineBinding {

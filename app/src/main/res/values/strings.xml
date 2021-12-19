@@ -1,19 +1,19 @@
 <resources>
     <string name="app_name">MiniMarket</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="plus_description">Increase quantity by one</string>
-    <string name="minus_description">Decrease quantity by one</string>
-    <string name="add_to_cart">to cart</string>
-    <string name="product_image_description">Product image</string>
-    <string name="product_quantity_hint">0</string>
+
+    <string name="product_details_plus_image_description">Increase quantity by one</string>
+    <string name="product_details_minus_image_description">Decrease quantity by one</string>
+    <string name="cart_goto_cart_button_label">to cart</string>
+    <string name="product_details_product_image_description">Product image</string>
+    <string name="product_details_quantity_hint">Count</string>
     <string name="cart_title">Cart:</string>
-    <string name="button_pay">Pay</string>
+    <string name="cart_pay_button_label">Pay</string>
     <string name="cart_total_title">Total:</string>
     <string name="list_search_hint">Search</string>
     <string name="cart_image_description">Cart icon</string>
-    <string name="fragment_list_label">Your\'s shop</string>
-    <string name="fragment_product_details_label">Product details</string>
-    <string name="fragment_cart_label">Cart</string>
+    <string name="fragment_list_title">Your\'s shop</string>
+    <string name="fragment_product_details_title">Product details</string>
+    <string name="fragment_cart_title">Cart</string>
     <string name="menu_cart_title">Cart</string>
     <string name="menu_layout_title">layout</string>
     <string name="menu_delete_all_title">Delete all</string>
@@ -24,5 +24,14 @@
     <string name="product_details_product_hint">Product</string>
     <string name="menu_test_title">Don\'t use it! Only for test.</string>
     <string name="message_paid_successfully">The order has been paid successfully.</string>
+    <string name="product_details_product_description">
+        Proteins: %1$d g%n
+        Fat: %2$d g%n
+        Carbohydrates: %3$d g%n
+        Calories: %4$d kCal
+    </string>
+    <!-- Untranslatable -->
+    <string name="cart_details_line" translatable="false">%1$s %2$d Р х %3$d = %4$d Р</string>
+    <string name="cart_total_text" translatable="false">%d Р</string>
 
 </resources>

@@ -1,13 +1,13 @@
 <resources>
-    <string name="add_to_cart">Добавить в корзину</string>
+    <string name="cart_goto_cart_button_label">Перейти в корзину</string>
     <string name="app_name">МиниМагазин</string>
-    <string name="button_pay">Оплатить</string>
+    <string name="cart_pay_button_label">Оплатить</string>
     <string name="cart_image_description">Значок корзины покупок</string>
-    <string name="cart_title">Корзна:</string>
+    <string name="cart_title">Корзина:</string>
     <string name="cart_total_title">Всего:</string>
-    <string name="fragment_cart_label">Корзина</string>
-    <string name="fragment_list_label">Твой магазин</string>
-    <string name="fragment_product_details_label">Описание продукта</string>
+    <string name="fragment_cart_title">Корзина</string>
+    <string name="fragment_list_title">Твой магазин</string>
+    <string name="fragment_product_details_title">Описание продукта</string>
     <string name="list_search_hint">Поиск</string>
     <string name="menu_cart_title">Корзина</string>
     <string name="menu_delete_all_title">Удалить все продукты</string>
@@ -15,13 +15,19 @@
     <string name="menu_prepopulate_title">Создать продукты</string>
     <string name="menu_test_title">Не использовать. Только для теста.</string>
     <string name="message_paid_successfully">Заказ успешно оплачен</string>
-    <string name="minus_description">Уменьшить количество на один</string>
-    <string name="plus_description">Увеличить количество на один</string>
+    <string name="product_details_minus_image_description">Уменьшить количество на один</string>
+    <string name="product_details_plus_image_description">Увеличить количество на один</string>
     <string name="product_details_details_hint">Описание продукта</string>
     <string name="product_details_price_hint">Цена</string>
     <string name="product_details_producer_hint">Производитель</string>
     <string name="product_details_product_hint">Продукт</string>
-    <string name="product_image_description">Изображение продукта</string>
-    <string name="product_quantity_hint">Кол-во</string>
+    <string name="product_details_product_image_description">Изображение продукта</string>
+    <string name="product_details_quantity_hint">Кол-во</string>
 
+    <string name="product_details_product_description">
+        Белки: %1$d г\n
+        Жиры: %2$d г\n
+        Углеводы: %3$d г\n
+        Калорийность: %4$d кКал
+    </string>
 </resources>

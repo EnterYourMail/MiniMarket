@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/ivProductImage"
+        android:id="@+id/item_cell_product_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -16,11 +16,11 @@
         android:layout_marginTop="@dimen/margin_little"
         android:layout_marginEnd="@dimen/margin_little"
         android:layout_marginBottom="@dimen/margin_little"
-        android:contentDescription="@string/product_image_description"
+        android:contentDescription="@string/product_details_product_image_description"
         app:srcCompat="@drawable/ic_launcher_background" />
 
     <TextView
-        android:id="@+id/tvProduct"
+        android:id="@+id/item_cell_product_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -29,7 +29,7 @@
         android:textAppearance="@style/TextAppearance.MiniMarket.TitleProduct" />
 
     <TextView
-        android:id="@+id/tvProducer"
+        android:id="@+id/item_cell_producer_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -39,7 +39,7 @@
         android:textAppearance="@style/TextAppearance.MiniMarket.TitleProducer" />
 
     <TextView
-        android:id="@+id/tvPrice"
+        android:id="@+id/item_cell_price_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"

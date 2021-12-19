@@ -17,9 +17,12 @@ interface CartDao {
     @Query("SELECT SUM(quantity) FROM basket")
     fun getCount(): Flow<Int?>
 
+    @Query("SELECT SUM(quantity) FROM basket")
+    suspend fun getCountOnce(): Int?
+
     @Transaction
     @Query("SELECT * FROM basket")
-    fun getBasket(): Flow<List<CartDetails>>
+    fun getCart(): Flow<List<CartDetails>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun replaceItem(item: CartItem)
@@ -29,4 +32,8 @@ interface CartDao {
 
     @Query("DELETE FROM basket")
     suspend fun deleteAll()
+
+    @Transaction
+    @Query("SELECT * FROM products WHERE productId = :productId")
+    fun getProductDetails(productId: Int): Flow<ProductDetails>
 }

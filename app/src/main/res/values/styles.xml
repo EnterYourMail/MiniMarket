@@ -11,4 +11,8 @@
     <style name="TextAppearance.MiniMarket.PriceProduct" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="MyToolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="titleTextColor">?attr/colorOnPrimary</item>
+    </style>
 </resources>

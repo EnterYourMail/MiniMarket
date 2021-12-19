@@ -5,30 +5,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.minimarket.MiniMarketApplication
+import com.example.minimarket.R
+import com.example.minimarket.base.BaseFragment
 import com.example.minimarket.base.ViewModelFactory
-import com.example.minimarket.database.Product
 import com.example.minimarket.databinding.FragmentProductDetailsBinding
 import javax.inject.Inject
 
-class ProductDetailsFragment : Fragment() {
+class ProductDetailsFragment : BaseFragment() {
 
-    private var _binding: FragmentProductDetailsBinding? = null
-    private val binding
-        get() = _binding!!
+    private lateinit var binding: FragmentProductDetailsBinding
+
     private val args by navArgs<ProductDetailsFragmentArgs>()
 
     @Inject
     lateinit var viewModelFactoryFactory: ViewModelFactory.Factory
 
-    private val viewState: ProductDetailsViewState by viewModels {
-        viewModelFactoryFactory.create(args.productId)
-    }
     private val viewModel: ProductDetailsViewModel by viewModels {
         viewModelFactoryFactory.create(args.productId)
     }
@@ -40,49 +35,48 @@ class ProductDetailsFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProductDetailsBinding.inflate(inflater, container, false)
-        viewState.product.observe(viewLifecycleOwner) { setStateView(it) }
+    ): View? {
+        return inflater.inflate(R.layout.fragment_product_details, container, false)
+    }
 
-        viewModel.quantity.observe(viewLifecycleOwner) {
-            binding.etQuantity.setText(it.toString())
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentProductDetailsBinding.bind(view)
+        initToolbar(binding.productDetailsToolbar)
 
-        binding.etQuantity.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                binding.etQuantity.text.toString().toIntOrNull()?.let {
-                    viewModel.setQuantity(it)
-                }
-                true
-            } else false
-        }
+        viewModel.viewState.observe(viewLifecycleOwner, ::observeViewState)
 
-        binding.ivPlus.setOnClickListener { viewModel.plus() }
-        binding.ivMinus.setOnClickListener { viewModel.minus() }
-        binding.btGotoCart.setOnClickListener {
+        binding.productDetailsPlusImage.setOnClickListener { viewModel.plus() }
+        binding.productDetailsMinusImage.setOnClickListener { viewModel.minus() }
+        binding.productDetailsGotoCartButton.setOnClickListener {
             val action = ProductDetailsFragmentDirections
                 .actionProductDetailsFragmentToCartFragment()
             findNavController().navigate(action)
         }
-
-        return binding.root
+        binding.productDetailsQuantityInput.setOnEditorActionListener { _, _, _ ->
+            viewModel.setStringQuantity(binding.productDetailsQuantityInput.text.toString())
+            true
+        }
     }
 
-    private fun setStateView(product: Product) {
-        with(product) {
-            binding.tvProduct.text = name
-            binding.tvProducer.text = producer
-            val text = """
-                    |Белки: $protein г
-                    |Жиры: $fat г
-                    |Углеводы: $carbohydrates г
-                    |Калорийность: $calories кКал
-                    """.trimMargin()
-            binding.tvDetails.text = text
-            binding.tvPrice.text = price.toString()
+    private fun observeViewState(viewState: ProductDetailsViewState) {
+        with(viewState.product) {
+            binding.productDetailsProductTitle.text = name
+            binding.productDetailsProducerTitle.text = producer
+
+            binding.productDetailsProductDescription.text = getString(
+                R.string.product_details_product_description,
+                protein,
+                fat,
+                carbohydrates,
+                calories
+            )
+            binding.productDetailsPriceText.text = price.toString()
         }
+        binding.productDetailsQuantityInput.setText(viewState.quantity.toString())
     }
 
 }

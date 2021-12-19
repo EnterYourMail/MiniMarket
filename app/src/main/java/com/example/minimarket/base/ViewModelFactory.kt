@@ -6,7 +6,6 @@ import com.example.minimarket.repository.Repository
 import com.example.minimarket.ui.cart.CartViewModel
 import com.example.minimarket.ui.list.ListViewModel
 import com.example.minimarket.ui.product_details.ProductDetailsViewModel
-import com.example.minimarket.ui.product_details.ProductDetailsViewState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -17,8 +16,6 @@ class ViewModelFactory @AssistedInject constructor(
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         when (modelClass) {
-            ProductDetailsViewState::class.java ->
-                return ProductDetailsViewState(repository, productId!!) as T
             ProductDetailsViewModel::class.java ->
                 return ProductDetailsViewModel(repository, productId!!) as T
             ListViewModel::class.java ->

@@ -6,57 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".ui.cart.CartFragment">
 
-    <TextView
-        android:id="@+id/tvCartTitle"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/cart_toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_default"
-        android:layout_marginTop="@dimen/margin_default"
-        android:text="@string/cart_title"
-        android:textAppearance="@style/TextAppearance.MiniMarket.TitleProduct"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvCartDetails"
+        android:id="@+id/cart_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_default"
-        android:layout_marginTop="24dp"
+        android:layout_margin="@dimen/margin_default"
+        android:text="@string/cart_title"
+        android:textAppearance="@style/TextAppearance.MiniMarket.TitleProduct"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCartTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/cart_toolbar" />
 
     <TextView
-        android:id="@+id/tvCartTotalTitle"
+        android:id="@+id/cart_details_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cart_title" />
+
+    <TextView
+        android:id="@+id/cart_total_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_default"
-        android:layout_marginBottom="16dp"
-        android:labelFor="@id/tvCartTotal"
+        android:layout_marginBottom="@dimen/margin_default"
+        android:labelFor="@id/cart_total_text"
         android:text="@string/cart_total_title"
         android:textAppearance="@style/TextAppearance.MiniMarket.PriceProduct"
-        app:layout_constraintBottom_toTopOf="@+id/btCartPay"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btCartPay"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_default"
-        android:layout_marginEnd="@dimen/margin_default"
-        android:layout_marginBottom="8dp"
-        android:text="@string/button_pay"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cart_pay_button"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/tvCartTotal"
+        android:id="@+id/cart_total_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_little"
         android:textAppearance="@style/TextAppearance.MiniMarket.PriceProduct"
-        app:layout_constraintStart_toEndOf="@+id/tvCartTotalTitle"
-        app:layout_constraintTop_toTopOf="@+id/tvCartTotalTitle" />
+        app:layout_constraintStart_toEndOf="@+id/cart_total_title"
+        app:layout_constraintTop_toTopOf="@+id/cart_total_title" />
+
+    <Button
+        android:id="@+id/cart_pay_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_marginEnd="@dimen/margin_default"
+        android:layout_marginBottom="@dimen/margin_little"
+        android:text="@string/cart_pay_button_label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
