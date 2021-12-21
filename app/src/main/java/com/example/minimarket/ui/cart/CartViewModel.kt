@@ -19,7 +19,7 @@ class CartViewModel @Inject constructor(private val repository: Repository) : Vi
         return CartViewState(
             listCartDetails.isNotEmpty(),
             listCartDetails,
-            listCartDetails.sumOf { it.product.price * it.cartItem.quantity }
+            listCartDetails.sumOf { it.productDTO.price * it.cartItemDTO.quantity }
         )
     }
 }

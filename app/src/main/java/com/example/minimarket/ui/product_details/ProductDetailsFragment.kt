@@ -63,7 +63,7 @@ class ProductDetailsFragment : BaseFragment() {
     }
 
     private fun observeViewState(viewState: ProductDetailsViewState) {
-        with(viewState.product) {
+        with(viewState.productDTO) {
             binding.productDetailsProductTitle.text = name
             binding.productDetailsProducerTitle.text = producer
 

@@ -8,4 +8,8 @@ data class ListViewState(
     val layoutType: LayoutType,
     val cartCount: Int,
     val isCartCounterVisible: Boolean
-)
+) {
+    companion object {
+        val empty = ListViewState(listOf(), LayoutType.default, 0, false)
+    }
+}

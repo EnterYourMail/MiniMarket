@@ -5,12 +5,11 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.minimarket.R
 import com.example.minimarket.database.CartDao
 import com.example.minimarket.database.LocalDatabase
-import com.example.minimarket.database.Product
 import com.example.minimarket.database.ProductDao
 import com.example.minimarket.ui.MainActivity
+import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
@@ -27,6 +26,11 @@ class StorageModule {
             MainActivity::class.java.toString(),
             Context.MODE_PRIVATE
         )
+    }
+
+    @Provides
+    fun providePicasso(): Picasso {
+        return Picasso.get()
     }
 
     @Provides
@@ -49,24 +53,10 @@ class StorageModule {
             .addCallback(object : RoomDatabase.Callback() {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
-                    scope.launch {
-                        val products = Array(20) { i ->
-                            Product(
-                                productId = i,
-                                name = "Шоколад \"Аленка\" #$i",
-                                producer = "Фабрика \"Красный октябрь\"",
-                                price = 100,
-                                protein = 10,
-                                fat = 30,
-                                carbohydrates = 28,
-                                calories = 580,
-                                imageResource = R.drawable.ic_launcher_background
-                            )
-                        }
-                        localDatabase.productDao().insertAll(*products)
-                    }
+                    scope.launch { localDatabase.productDao().prepopulate() }
                 }
             })
+            .fallbackToDestructiveMigration()
             .build()
         return localDatabase
     }

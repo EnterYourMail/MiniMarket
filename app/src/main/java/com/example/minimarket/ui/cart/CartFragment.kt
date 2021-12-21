@@ -56,10 +56,10 @@ class CartFragment : BaseFragment() {
         val list: List<String> = viewState.listCartDetails.map {
             getString(
                 R.string.cart_details_line,
-                it.product.name,
-                it.product.price,
-                it.cartItem.quantity,
-                it.product.price * it.cartItem.quantity
+                it.productDTO.name,
+                it.productDTO.price,
+                it.cartItemDTO.quantity,
+                it.productDTO.price * it.cartItemDTO.quantity
             )
         }
 

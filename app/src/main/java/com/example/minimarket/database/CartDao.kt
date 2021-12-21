@@ -25,10 +25,10 @@ interface CartDao {
     fun getCart(): Flow<List<CartDetails>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun replaceItem(item: CartItem)
+    suspend fun replaceItem(itemDTO: CartItemDTO)
 
     @Delete
-    suspend fun deleteItem(item: CartItem)
+    suspend fun deleteItem(itemDTO: CartItemDTO)
 
     @Query("DELETE FROM basket")
     suspend fun deleteAll()

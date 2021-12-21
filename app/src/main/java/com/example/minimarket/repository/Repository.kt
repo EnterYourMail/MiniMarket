@@ -1,9 +1,7 @@
 package com.example.minimarket.repository
 
-import com.example.minimarket.R
 import com.example.minimarket.database.CartDao
-import com.example.minimarket.database.CartItem
-import com.example.minimarket.database.Product
+import com.example.minimarket.database.CartItemDTO
 import com.example.minimarket.database.ProductDao
 import com.example.minimarket.ui.list.LayoutType
 import com.example.minimarket.utils.SharedPreferencesHelper
@@ -18,7 +16,7 @@ class Repository @Inject constructor(
     private val sPref: SharedPreferencesHelper
 ) {
 
-    val products = productDao.getAll()
+    val productsDTO = productDao.getAll()
     val cartCount = cartDao.getCount().map { it ?: 0 }
     val cart = cartDao.getCart()
 
@@ -35,7 +33,7 @@ class Repository @Inject constructor(
 //    }
 
     suspend fun setProductQuantity(productId: Int, quantity: Int) {
-        val basketItem = CartItem(productId, quantity)
+        val basketItem = CartItemDTO(productId, quantity)
         if (quantity > 0) {
             cartDao.replaceItem(basketItem)
         } else {
@@ -60,19 +58,6 @@ class Repository @Inject constructor(
     suspend fun deleteAllProducts() = productDao.deleteAll()
 
     suspend fun prepopulateProduct() {
-        val products = Array(20) { i ->
-            Product(
-                productId = i,
-                name = "Шоколад \"Аленка\" #$i",
-                producer = "Фабрика \"Красный октябрь\"",
-                price = 100,
-                protein = 10,
-                fat = 30,
-                carbohydrates = 28,
-                calories = 580,
-                imageResource = R.drawable.ic_launcher_background
-            )
-        }
-        productDao.insertAll(*products)
+        productDao.prepopulate()
     }
 }

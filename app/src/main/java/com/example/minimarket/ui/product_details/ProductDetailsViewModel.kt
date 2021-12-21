@@ -46,8 +46,8 @@ class ProductDetailsViewModel(
 
     private fun productDetailsToViewState(productDetails: ProductDetails): ProductDetailsViewState {
         return ProductDetailsViewState(
-            productDetails.product,
-            productDetails.cartItem?.quantity ?: 0
+            productDetails.productDTO,
+            productDetails.cartItemDTO?.quantity ?: 0
         )
     }
 }

@@ -6,20 +6,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.minimarket.R
 import com.example.minimarket.repository.Repository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ListViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+class ListViewModel @Inject constructor(
+    private val repository: Repository,
+    private val picasso: Picasso) : ViewModel() {
 
     private val _searchFlow = MutableStateFlow("")
 
-    private val productsFlow = _searchFlow.flatMapLatest {
+    private val productsDTOFlow = _searchFlow.debounce(500L).flatMapLatest {
         if (it.isBlank()) {
-            repository.products
+            repository.productsDTO
         } else {
             repository.findProducts(it)
         }
@@ -63,9 +63,11 @@ class ListViewModel @Inject constructor(private val repository: Repository) : Vi
         }
         repository.setLayoutType(layoutType)
         _viewState.value?.let {
-            val itemFunc = layoutType.itemFunction
-            val items = it.items.map { item -> itemFunc(item.product) }
-            _viewState.value = it.copy(layoutType = layoutType, items = items)
+            val itemConstructor = layoutType.itemConstructor
+            val newItems = it.items.map { item ->
+                itemConstructor(item.productDTO, picasso)
+            }
+            _viewState.value = it.copy(layoutType = layoutType, items = newItems)
         }
         return true
     }
@@ -73,23 +75,7 @@ class ListViewModel @Inject constructor(private val repository: Repository) : Vi
     private fun isCartCounterVisible(cartCount: Int) = cartCount > 0
 
     private fun initViewState() {
-
-//        val cartCount = repository.getCartCount()
-//        val layoutType = repository.getLayoutType()
-//        val itemFunction = layoutType.itemFunction
-//        _viewState.value = ListViewState(
-//            items = repository.getProducts().map { itemFunction(it) },
-//            layoutType = layoutType,
-//            cartCount = cartCount,
-//            isCartCounterVisible = isCartCounterVisible(cartCount)
-//        )
-
-        _viewState.value = ListViewState(
-            listOf(),
-            LayoutType.default,
-            0,
-            false
-        )
+        _viewState.value = ListViewState.empty
 
         cartCountFlow.onEach {
             _viewState.value = _viewState.value?.copy(
@@ -98,12 +84,12 @@ class ListViewModel @Inject constructor(private val repository: Repository) : Vi
             )
         }.launchIn(viewModelScope)
 
-        productsFlow.onEach { products ->
+        productsDTOFlow.onEach { productsDTO ->
             _viewState.value?.let { listViewState ->
-                val itemFunc = listViewState.layoutType.itemFunction
+                val itemConstructor = listViewState.layoutType.itemConstructor
 
                 _viewState.value = listViewState.copy(
-                    items = products.map { itemFunc(it) }
+                    items = productsDTO.map { itemConstructor(it, picasso) }
                 )
             }
         }.launchIn(viewModelScope)

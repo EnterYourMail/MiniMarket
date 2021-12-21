@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "products")
-data class Product(
+data class ProductDTO(
     @PrimaryKey //(autoGenerate = true)
     val productId: Int,
     val name: String,
@@ -14,5 +14,6 @@ data class Product(
     val fat: Int,
     val carbohydrates: Int,
     val calories: Int,
-    val imageResource: Int
+    val imageResource: Int,
+    val imageLink: String
 )

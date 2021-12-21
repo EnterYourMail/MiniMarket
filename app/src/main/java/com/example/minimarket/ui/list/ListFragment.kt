@@ -90,7 +90,7 @@ class ListFragment : BaseFragment() {
     private val onItemClickListener = OnItemClickListener { item, _ ->
         val action = ListFragmentDirections
             .actionListFragmentToProductDetailsFragment(
-                (item as ListItem<*>).product.productId
+                (item as ListItem<*>).productDTO.productId
             )
         findNavController().navigate(action)
     }

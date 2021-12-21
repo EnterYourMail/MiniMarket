@@ -1,8 +1,8 @@
 package com.example.minimarket.ui.product_details
 
-import com.example.minimarket.database.Product
+import com.example.minimarket.database.ProductDTO
 
 data class ProductDetailsViewState(
-    val product: Product,
+    val productDTO: ProductDTO,
     val quantity: Int
 )
