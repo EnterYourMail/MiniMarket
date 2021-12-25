@@ -13,7 +13,14 @@ import com.example.minimarket.R
 import com.example.minimarket.base.BaseFragment
 import com.example.minimarket.base.ViewModelFactory
 import com.example.minimarket.databinding.FragmentProductDetailsBinding
+import com.squareup.picasso.Picasso
 import javax.inject.Inject
+
+
+
+
+
+
 
 class ProductDetailsFragment : BaseFragment() {
 
@@ -75,6 +82,9 @@ class ProductDetailsFragment : BaseFragment() {
                 calories
             )
             binding.productDetailsPriceText.text = price.toString()
+
+            Picasso.get().load(imageLink)
+                .fit().centerInside().into(binding.productDetailsProductImage)
         }
         binding.productDetailsQuantityInput.setText(viewState.quantity.toString())
     }

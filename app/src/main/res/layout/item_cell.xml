@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/margin_little"
         android:layout_marginEnd="@dimen/margin_little"
         android:layout_marginBottom="@dimen/margin_little"
-        android:layout_weight="0"
+        android:layout_weight="3"
         android:contentDescription="@string/product_details_product_image_description"
         app:srcCompat="@drawable/ic_launcher_background" />
 
@@ -25,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
         android:gravity="center"
         android:hint="@string/product_details_product_hint"
         android:textAppearance="@style/TextAppearance.MiniMarket.TitleProduct" />
@@ -35,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/margin_little"
+        android:layout_weight="1"
         android:gravity="center"
         android:hint="@string/product_details_producer_hint"
         android:textAppearance="@style/TextAppearance.MiniMarket.TitleProducer" />
@@ -46,6 +48,7 @@
         android:layout_gravity="end"
         android:layout_marginEnd="@dimen/margin_little"
         android:layout_marginBottom="@dimen/margin_little"
+        android:layout_weight="1"
         android:hint="@string/product_details_price_hint"
         android:textAppearance="@style/TextAppearance.MiniMarket.PriceProduct" />
 

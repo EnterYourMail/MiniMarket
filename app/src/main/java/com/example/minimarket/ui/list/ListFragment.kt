@@ -84,7 +84,6 @@ class ListFragment : BaseFragment() {
             }
             groupAdapter.update(it.items)
         }
-
     }
 
     private val onItemClickListener = OnItemClickListener { item, _ ->
