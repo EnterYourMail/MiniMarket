@@ -6,12 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.example.minimarket.MiniMarketApplication
 import com.example.minimarket.R
 import com.example.minimarket.base.BaseFragment
 import com.example.minimarket.base.ViewModelFactory
 import com.example.minimarket.databinding.FragmentCartBinding
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CartFragment : BaseFragment() {
@@ -43,11 +48,20 @@ class CartFragment : BaseFragment() {
         binding = FragmentCartBinding.bind(view)
         initToolbar(binding.cartToolbar)
 
-        viewModel.viewState.observe(viewLifecycleOwner, ::observeViewState)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.viewState.flowWithLifecycle(
+                viewLifecycleOwner.lifecycle,
+                Lifecycle.State.RESUMED
+            ).collect(::observeViewState)
+        }
 
         binding.cartPayButton.setOnClickListener {
             viewModel.pay()
-            Snackbar.make(binding.root, R.string.message_paid_successfully, Snackbar.LENGTH_SHORT)
+            Snackbar.make(
+                binding.root,
+                R.string.message_paid_successfully,
+                Snackbar.LENGTH_SHORT
+            )
                 .show()
         }
     }

@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,6 +24,8 @@ import com.example.minimarket.databinding.FragmentListBinding
 import com.example.minimarket.ui.list.item.ListItem
 import com.xwray.groupie.GroupieAdapter
 import com.xwray.groupie.OnItemClickListener
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ListFragment : BaseFragment() {
@@ -74,15 +79,19 @@ class ListFragment : BaseFragment() {
         binding.listProductsList.adapter = groupAdapter
         binding.listProductsList.layoutManager = LinearLayoutManager(context)
 
-        viewModel.viewState.observe(viewLifecycleOwner) {
-            cartIconCounter.isVisible = it.isCartCounterVisible
-            cartIconCounter.text = it.cartCount.toString()
-            layoutITem.setIcon(it.layoutType.icon)
-            binding.listProductsList.layoutManager = when (it.layoutType) {
-                LayoutType.LINER -> LinearLayoutManager(context)
-                else -> GridLayoutManager(context, it.layoutType.spanCount)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.viewState.collect {
+                    cartIconCounter.isVisible = it.isCartCounterVisible
+                    cartIconCounter.text = it.cartCount.toString()
+                    layoutITem.setIcon(it.layoutType.icon)
+                    binding.listProductsList.layoutManager = when (it.layoutType) {
+                        LayoutType.LINER -> LinearLayoutManager(context)
+                        else -> GridLayoutManager(context, it.layoutType.spanCount)
+                    }
+                    groupAdapter.update(it.items)
+                }
             }
-            groupAdapter.update(it.items)
         }
     }
 

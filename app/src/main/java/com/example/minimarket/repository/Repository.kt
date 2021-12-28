@@ -20,21 +20,17 @@ class Repository @Inject constructor(
     val cartCount = cartDao.getCount().map { it ?: 0 }
     val cart = cartDao.getCart()
 
-    //suspend fun getCartCount() = cartDao.getCountOnce() ?: 0
-
-    //suspend fun getProducts() = productDao.getAllOnce()
-
     fun getProductDetails(productId: Int) = cartDao.getProductDetails(productId)
 
-//    fun getProduct(productId: Int) = productDao.getById(productId)
-//
-//    fun getProductQuantity(productId: Int): Flow<Int> {
-//        return cartDao.getItemQuantity(productId).map { it ?: 0 }
-//    }
-
     suspend fun setProductQuantity(productId: Int, quantity: Int) {
-        val basketItem = CartItemDTO(productId, quantity)
-        if (quantity > 0) {
+        val newQuantity = when (quantity) {
+            in 0..99 -> quantity
+            in 100..Int.MAX_VALUE -> 100
+            else -> 0
+        }
+
+        val basketItem = CartItemDTO(productId, newQuantity)
+        if (newQuantity > 0) {
             cartDao.replaceItem(basketItem)
         } else {
             cartDao.deleteItem(basketItem)

@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.minimarket.MiniMarketApplication
@@ -14,13 +17,9 @@ import com.example.minimarket.base.BaseFragment
 import com.example.minimarket.base.ViewModelFactory
 import com.example.minimarket.databinding.FragmentProductDetailsBinding
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-
-
-
-
-
 
 class ProductDetailsFragment : BaseFragment() {
 
@@ -54,7 +53,11 @@ class ProductDetailsFragment : BaseFragment() {
         binding = FragmentProductDetailsBinding.bind(view)
         initToolbar(binding.productDetailsToolbar)
 
-        viewModel.viewState.observe(viewLifecycleOwner, ::observeViewState)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.viewState.collect(::observeViewState)
+            }
+        }
 
         binding.productDetailsPlusImage.setOnClickListener { viewModel.plus() }
         binding.productDetailsMinusImage.setOnClickListener { viewModel.minus() }
@@ -69,24 +72,26 @@ class ProductDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun observeViewState(viewState: ProductDetailsViewState) {
-        with(viewState.productDTO) {
-            binding.productDetailsProductTitle.text = name
-            binding.productDetailsProducerTitle.text = producer
+    private fun observeViewState(viewState: ProductDetailsViewState?) {
+        viewState?.let {
+            with(it.productDTO) {
+                binding.productDetailsProductTitle.text = name
+                binding.productDetailsProducerTitle.text = producer
 
-            binding.productDetailsProductDescription.text = getString(
-                R.string.product_details_product_description,
-                protein,
-                fat,
-                carbohydrates,
-                calories
-            )
-            binding.productDetailsPriceText.text = price.toString()
+                binding.productDetailsProductDescription.text = getString(
+                    R.string.product_details_product_description,
+                    protein,
+                    fat,
+                    carbohydrates,
+                    calories
+                )
+                binding.productDetailsPriceText.text = price.toString()
 
-            Picasso.get().load(imageLink)
-                .fit().centerInside().into(binding.productDetailsProductImage)
+                Picasso.get().load(imageLink).resize(200, 200)
+                    .centerInside().into(binding.productDetailsProductImage)
+            }
+            binding.productDetailsQuantityInput.setText(it.quantity.toString())
         }
-        binding.productDetailsQuantityInput.setText(viewState.quantity.toString())
     }
 
 }
