@@ -14,12 +14,14 @@ import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import javax.inject.Singleton
 
 @Module
 class StorageModule {
 
     lateinit var localDatabase: LocalDatabase
 
+    @Singleton
     @Provides
     fun provideSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(
@@ -28,21 +30,25 @@ class StorageModule {
         )
     }
 
+    @Singleton
     @Provides
     fun providePicasso(): Picasso {
         return Picasso.get()
     }
 
+    @Singleton
     @Provides
     fun provideProductDao(database: LocalDatabase): ProductDao {
         return database.productDao()
     }
 
+    @Singleton
     @Provides
     fun provideCartDao(database: LocalDatabase): CartDao {
         return database.cartDao()
     }
 
+    @Singleton
     @Provides
     fun provideDatabase(context: Context, scope: CoroutineScope): LocalDatabase {
         localDatabase = Room.databaseBuilder(

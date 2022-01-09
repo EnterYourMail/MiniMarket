@@ -83,8 +83,12 @@ class ProductDetailsFragment : BaseFragment() {
             )
             binding.productDetailsPriceText.text = price.toString()
 
-            Picasso.get().load(imageLink)
-                .fit().centerInside().into(binding.productDetailsProductImage)
+            val metric = getMetric()
+            val height = (metric.height * 0.3).toInt()
+            val width = (metric.width * 0.3).toInt()
+
+            Picasso.get().load(imageLink).resize(width, height)
+                .centerInside().into(binding.productDetailsProductImage)
         }
         binding.productDetailsQuantityInput.setText(viewState.quantity.toString())
     }
