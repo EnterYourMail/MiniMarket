@@ -51,7 +51,7 @@ class CartFragment : BaseFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.viewState.flowWithLifecycle(
                 viewLifecycleOwner.lifecycle,
-                Lifecycle.State.RESUMED
+                Lifecycle.State.STARTED
             ).collect(::observeViewState)
         }
 

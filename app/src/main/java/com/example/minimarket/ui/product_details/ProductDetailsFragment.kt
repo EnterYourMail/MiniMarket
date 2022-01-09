@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 class ProductDetailsFragment : BaseFragment() {
 
     private lateinit var binding: FragmentProductDetailsBinding
@@ -54,7 +55,7 @@ class ProductDetailsFragment : BaseFragment() {
         initToolbar(binding.productDetailsToolbar)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.viewState.collect(::observeViewState)
             }
         }
@@ -87,7 +88,11 @@ class ProductDetailsFragment : BaseFragment() {
                 )
                 binding.productDetailsPriceText.text = price.toString()
 
-                Picasso.get().load(imageLink).resize(200, 200)
+                val metric = getMetric()
+                val height = (metric.height * 0.3).toInt()
+                val width = (metric.width * 0.3).toInt()
+
+                Picasso.get().load(imageLink).resize(width, height)
                     .centerInside().into(binding.productDetailsProductImage)
             }
             binding.productDetailsQuantityInput.setText(it.quantity.toString())

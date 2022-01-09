@@ -80,7 +80,7 @@ class ListFragment : BaseFragment() {
         binding.listProductsList.layoutManager = LinearLayoutManager(context)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.viewState.collect {
                     cartIconCounter.isVisible = it.isCartCounterVisible
                     cartIconCounter.text = it.cartCount.toString()
