@@ -17,10 +17,12 @@ class ListViewModel @Inject constructor(
     private val repository: Repository,
     private val picasso: Picasso) : ViewModel() {
 
+    val viewState: LiveData<ListViewState>
+        get() = _viewState
+    private val _viewState = MutableLiveData<ListViewState>()
     private val mutex = Mutex()
 
     private val _searchFlow = MutableStateFlow("")
-
     private val productsDTOFlow = _searchFlow.debounce(500L).flatMapLatest {
         if (it.isBlank()) {
             repository.productsDTO
@@ -28,12 +30,7 @@ class ListViewModel @Inject constructor(
             repository.findProducts(it)
         }
     }
-
     private val cartCountFlow = repository.cartCount
-
-    private val _viewState = MutableLiveData<ListViewState>()
-    val viewState: LiveData<ListViewState>
-        get() = _viewState
 
     init {
         initViewState()
@@ -62,19 +59,23 @@ class ListViewModel @Inject constructor(
 
     private fun changeLayoutType(): Boolean {
         viewModelScope.launch {
+            //Change layout type.
             val layoutType = when (repository.getLayoutType()) {
                 LayoutType.GRID -> LayoutType.LINER
                 else -> LayoutType.default
             }
+            //Store layout type.
             repository.setLayoutType(layoutType)
 
             mutex.withLock {
-                viewState.value?.let { listViewState ->
+                viewState.value?.let { viewStateValue ->
+                    // Constructor accords layout type.
                     val itemConstructor = layoutType.itemConstructor
-                    val newItems = listViewState.items.map { item ->
-                        itemConstructor(item.productDTO, picasso)
+                    val newItems = viewStateValue.items.map { item ->
+                        itemConstructor.invoke(item.productDTO, picasso)
                     }
-                    _viewState.value = listViewState.copy(
+                    //Set new value.
+                    _viewState.value = viewStateValue.copy(
                         layoutType = layoutType,
                         items = newItems
                     )
@@ -90,11 +91,11 @@ class ListViewModel @Inject constructor(
     private fun initViewState() {
         _viewState.value = ListViewState(repository.getLayoutType())
 
-        cartCountFlow.onEach {
+        cartCountFlow.onEach { viewStateValue ->
             mutex.withLock {
                 _viewState.value = viewState.value?.copy(
-                    cartCount = it,
-                    isCartCounterVisible = isCartCounterVisible(it)
+                    cartCount = viewStateValue,
+                    isCartCounterVisible = isCartCounterVisible(viewStateValue)
                 )
             }
         }.launchIn(viewModelScope)

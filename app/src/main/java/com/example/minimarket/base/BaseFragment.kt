@@ -1,6 +1,8 @@
 package com.example.minimarket.base
 
 import android.util.DisplayMetrics
+import android.util.TypedValue
+import androidx.annotation.AttrRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -9,8 +11,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.minimarket.R
 
 open class BaseFragment : Fragment() {
-
-    protected data class Metric(val width: Int, val height: Int)
 
     protected fun initToolbar(toolbar: Toolbar, navigateUp: Boolean = true) {
         val navController = findNavController()
@@ -24,9 +24,17 @@ open class BaseFragment : Fragment() {
 
     protected fun getMetric(): Metric {
         val displayMetrics = DisplayMetrics()
-        requireActivity().windowManager.getDefaultDisplay().getMetrics(displayMetrics)
+        requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
         val height = displayMetrics.heightPixels
         val width = displayMetrics.widthPixels
-        return Metric(width = width, height = height)
+        return Metric(width, height)
     }
+
+    protected fun getThemeColor(@AttrRes attrColor: Int): Int {
+        val typedValue = TypedValue()
+        requireContext().theme.resolveAttribute(attrColor, typedValue, true)
+        return typedValue.data
+    }
+
+    protected data class Metric(val width: Int, val height: Int)
 }

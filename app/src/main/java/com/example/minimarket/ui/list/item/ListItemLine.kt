@@ -6,7 +6,10 @@ import com.example.minimarket.database.ProductDTO
 import com.example.minimarket.databinding.ItemLineBinding
 import com.squareup.picasso.Picasso
 
-class ListItemLine constructor (productDTO: ProductDTO, picasso: Picasso): ListItem<ItemLineBinding>(productDTO, picasso) {
+class ListItemLine (productDTO: ProductDTO, picasso: Picasso): ListItem<ItemLineBinding>(productDTO, picasso) {
+
+    override lateinit var transitionView: View
+
     override fun getLayout() = R.layout.item_line
 
     override fun bind(binding: ItemLineBinding, position: Int) {
@@ -15,6 +18,9 @@ class ListItemLine constructor (productDTO: ProductDTO, picasso: Picasso): ListI
         binding.itemLineProductTitle.text = productDTO.name
         binding.itemLineProducerTitle.text = productDTO.producer
         binding.itemLinePriceText.text = productDTO.price.toString()
+        //binding.itemLineProductImage.transitionName = transitionName + productDTO.productId
+        binding.root.transitionName = transitionName + productDTO.productId
+        transitionView = binding.root
     }
 
     override fun initializeViewBinding(view: View): ItemLineBinding {

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:transitionName="@string/product_details_transition_name"
     tools:context=".ui.product_details.ProductDetailsFragment">
 
     <androidx.appcompat.widget.Toolbar
@@ -122,12 +123,13 @@
         tools:layout_editor_absoluteY="72dp" />
 
     <Button
-        android:id="@+id/product_details_goto_cart_button"
+        android:id="@+id/product_details_cart_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_default"
         android:layout_marginEnd="@dimen/margin_default"
         android:text="@string/cart_goto_cart_button_label"
+        android:transitionName="@string/product_details_cart_button_transition_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

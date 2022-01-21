@@ -7,6 +7,9 @@ import com.example.minimarket.databinding.ItemCellBinding
 import com.squareup.picasso.Picasso
 
 class ListItemCell (productDTO: ProductDTO, picasso: Picasso): ListItem<ItemCellBinding>(productDTO, picasso) {
+
+    override lateinit var transitionView: View
+
     override fun getLayout() = R.layout.item_cell
 
     override fun bind(binding: ItemCellBinding, position: Int) {
@@ -15,9 +18,14 @@ class ListItemCell (productDTO: ProductDTO, picasso: Picasso): ListItem<ItemCell
         binding.itemCellProductTitle.text = productDTO.name
         binding.itemCellProducerTitle.text = productDTO.producer
         binding.itemCellPriceText.text = productDTO.price.toString()
+        //binding.itemCellProductImage.transitionName = transitionName + productDTO.productId
+        binding.root.transitionName = transitionName + productDTO.productId
+        transitionView = binding.root
     }
 
     override fun initializeViewBinding(view: View): ItemCellBinding {
         return ItemCellBinding.bind(view)
     }
+
+
 }

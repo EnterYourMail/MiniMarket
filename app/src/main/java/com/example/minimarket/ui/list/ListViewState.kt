@@ -10,8 +10,11 @@ data class ListViewState constructor(
     val isCartCounterVisible: Boolean
 ) {
 
-    constructor(layoutType: LayoutType): this(listOf(), layoutType, 0, false)
-
-    constructor(): this(LayoutType.default)
+    constructor(layoutType: LayoutType): this(
+        items = listOf(),
+        layoutType = layoutType,
+        cartCount = 0,
+        isCartCounterVisible = false
+    )
 
 }

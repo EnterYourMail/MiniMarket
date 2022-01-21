@@ -17,9 +17,9 @@ class CartViewModel @Inject constructor(private val repository: Repository) : Vi
 
     private fun listCartDetailsToViewState(listCartDetails: List<CartDetails>): CartViewState {
         return CartViewState(
-            listCartDetails.isNotEmpty(),
-            listCartDetails,
-            listCartDetails.sumOf { it.productDTO.price * it.cartItemDTO.quantity }
+            isPayButtonEnable = listCartDetails.isNotEmpty(),
+            listCartDetails = listCartDetails,
+            cartTotal = listCartDetails.sumOf { it.productDTO.price * it.cartItemDTO.quantity }
         )
     }
 }

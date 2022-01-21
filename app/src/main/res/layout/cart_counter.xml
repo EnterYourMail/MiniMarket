@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/menu_item_icon_size"
     android:layout_height="@dimen/menu_item_icon_size"
+    android:transitionName="@string/cart_icon_transition_name"
     tools:showIn="@layout/activity_main">
 
     <FrameLayout

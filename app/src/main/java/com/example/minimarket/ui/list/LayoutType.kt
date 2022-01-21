@@ -14,12 +14,22 @@ enum class LayoutType(
     val icon: Int,
     val itemConstructor: (ProductDTO, Picasso) -> ListItem<out ViewBinding>
 ) {
-    GRID(0, 2, R.drawable.ic_baseline_grid_layout_24, ::ListItemCell),
-    LINER(1, 0, R.drawable.ic_baseline_linear_layout_24, ::ListItemLine);
+    GRID(
+        code = 0,
+        spanCount = 2,
+        icon = R.drawable.ic_baseline_grid_layout_24,
+        itemConstructor = ::ListItemCell
+    ),
+    LINER(
+        code = 1,
+        spanCount = 0,
+        icon = R.drawable.ic_baseline_linear_layout_24,
+        itemConstructor = ::ListItemLine
+    );
 
     companion object {
-        private val values = values()
         val default = GRID
+        private val values = values()
         fun getByCode(code: Int) = values.first { it.code == code }
     }
 }

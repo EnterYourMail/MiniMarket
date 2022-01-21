@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.minimarket.MiniMarketApplication
@@ -13,24 +15,18 @@ import com.example.minimarket.R
 import com.example.minimarket.base.BaseFragment
 import com.example.minimarket.base.ViewModelFactory
 import com.example.minimarket.databinding.FragmentProductDetailsBinding
+import com.google.android.material.transition.Hold
+import com.google.android.material.transition.MaterialContainerTransform
 import com.squareup.picasso.Picasso
 import javax.inject.Inject
 
-
-
-
-
-
-
 class ProductDetailsFragment : BaseFragment() {
-
-    private lateinit var binding: FragmentProductDetailsBinding
-
-    private val args by navArgs<ProductDetailsFragmentArgs>()
 
     @Inject
     lateinit var viewModelFactoryFactory: ViewModelFactory.Factory
 
+    private lateinit var binding: FragmentProductDetailsBinding
+    private val args by navArgs<ProductDetailsFragmentArgs>()
     private val viewModel: ProductDetailsViewModel by viewModels {
         viewModelFactoryFactory.create(args.productId)
     }
@@ -39,6 +35,14 @@ class ProductDetailsFragment : BaseFragment() {
         super.onAttach(context)
         (requireActivity().application as MiniMarketApplication)
             .appComponent.inject(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            setAllContainerColors(getColor(requireContext(), R.color.white))
+        }
     }
 
     override fun onCreateView(
@@ -58,11 +62,7 @@ class ProductDetailsFragment : BaseFragment() {
 
         binding.productDetailsPlusImage.setOnClickListener { viewModel.plus() }
         binding.productDetailsMinusImage.setOnClickListener { viewModel.minus() }
-        binding.productDetailsGotoCartButton.setOnClickListener {
-            val action = ProductDetailsFragmentDirections
-                .actionProductDetailsFragmentToCartFragment()
-            findNavController().navigate(action)
-        }
+        binding.productDetailsCartButton.setOnClickListener(::gotoCartButtonOnClick)
         binding.productDetailsQuantityInput.setOnEditorActionListener { _, _, _ ->
             viewModel.setStringQuantity(binding.productDetailsQuantityInput.text.toString())
             true
@@ -91,6 +91,17 @@ class ProductDetailsFragment : BaseFragment() {
                 .centerInside().into(binding.productDetailsProductImage)
         }
         binding.productDetailsQuantityInput.setText(viewState.quantity.toString())
+    }
+
+    private fun gotoCartButtonOnClick(view: View) {
+        exitTransition = Hold().apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong() / 2
+        }
+        val cartTransitionName = getString(R.string.cart_transition_name)
+        val extras = FragmentNavigatorExtras(view to cartTransitionName)
+        val action = ProductDetailsFragmentDirections
+            .actionProductDetailsFragmentToCartFragment()
+        findNavController().navigate(action, extras)
     }
 
 }

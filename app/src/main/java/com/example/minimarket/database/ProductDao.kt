@@ -11,8 +11,8 @@ interface ProductDao {
     @Query("SELECT * FROM products")
     fun getAll(): Flow<List<ProductDTO>>
 
-    @Query("SELECT * FROM products")
-    suspend fun getAllOnce(): List<ProductDTO>
+//    @Query("SELECT * FROM products")
+//    suspend fun getAllOnce(): List<ProductDTO>
 
     @Query("SELECT * FROM products WHERE name LIKE '%' || :text || '%'")
     fun findByName(text: String): Flow<List<ProductDTO>>

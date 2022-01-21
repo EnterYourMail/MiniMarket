@@ -16,20 +16,9 @@ class ProductDetailsViewModel(
     val viewState = repository.getProductDetails(productId).map(
         ::productDetailsToViewState
     ).asLiveData()
-//    val quantity = repository.getProductQuantity(productId).asLiveData()
-//    val product = repository.getProduct(productId).asLiveData()
 
     fun setStringQuantity(quantity: String) {
         quantity.toIntOrNull()?.let { setQuantity(it) }
-    }
-
-    private fun setQuantity(quantity: Int) = viewModelScope.launch {
-        val value = when (quantity) {
-            in 0..99 -> quantity
-            in 100..Int.MAX_VALUE -> 100
-            else -> 0
-        }
-        repository.setProductQuantity(productId, value)
     }
 
     fun plus() {
@@ -42,6 +31,15 @@ class ProductDetailsViewModel(
         viewState.value?.quantity?.let {
             if (it > 0) setQuantity(it - 1)
         }
+    }
+
+    private fun setQuantity(quantity: Int) = viewModelScope.launch {
+        val value = when (quantity) {
+            in 0..99 -> quantity
+            in 100..Int.MAX_VALUE -> 100
+            else -> 0
+        }
+        repository.setProductQuantity(productId, value)
     }
 
     private fun productDetailsToViewState(productDetails: ProductDetails): ProductDetailsViewState {

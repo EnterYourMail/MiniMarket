@@ -12,14 +12,15 @@ import com.example.minimarket.base.BaseFragment
 import com.example.minimarket.base.ViewModelFactory
 import com.example.minimarket.databinding.FragmentCartBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialContainerTransform
 import javax.inject.Inject
 
 class CartFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentCartBinding
-
     @Inject
     lateinit var viewModelFactoryFactory: ViewModelFactory.Factory
+
+    private lateinit var binding: FragmentCartBinding
     private val viewModel: CartViewModel by viewModels {
         viewModelFactoryFactory.create()
     }
@@ -28,6 +29,20 @@ class CartFragment : BaseFragment() {
         super.onAttach(context)
         (requireActivity().application as MiniMarketApplication)
             .appComponent.inject(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val colorBackground = getThemeColor(android.R.attr.colorBackground)
+
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            endContainerColor = colorBackground
+        }
+        sharedElementReturnTransition = MaterialContainerTransform().apply {
+            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            startContainerColor = colorBackground
+        }
     }
 
     override fun onCreateView(
@@ -44,12 +59,13 @@ class CartFragment : BaseFragment() {
         initToolbar(binding.cartToolbar)
 
         viewModel.viewState.observe(viewLifecycleOwner, ::observeViewState)
+        binding.cartPayButton.setOnClickListener(::cartPayButtonClickListener)
+    }
 
-        binding.cartPayButton.setOnClickListener {
-            viewModel.pay()
-            Snackbar.make(binding.root, R.string.message_paid_successfully, Snackbar.LENGTH_SHORT)
-                .show()
-        }
+    private fun cartPayButtonClickListener(view: View) {
+        viewModel.pay()
+        Snackbar.make(binding.root, R.string.message_paid_successfully, Snackbar.LENGTH_SHORT)
+            .show()
     }
 
     private fun observeViewState(viewState: CartViewState) {
