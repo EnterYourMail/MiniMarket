@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="reply_motion_duration_large">1000</integer>
-    <integer name="reply_motion_duration_medium">500</integer>
+    <integer name="motion_duration_large">1000</integer>
+    <integer name="hold_duration_large">600</integer>
+    <!-- <integer name="motion_duration_medium">500</integer> -->
 </resources>

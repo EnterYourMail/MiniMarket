@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.minimarket.R
 import com.example.minimarket.repository.Repository
+import com.example.minimarket.utils.Metric
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ class ListViewModel @Inject constructor(
     private val repository: Repository,
     private val picasso: Picasso) : ViewModel() {
 
+    var metric = Metric(500, 500)
     val viewState: LiveData<ListViewState>
         get() = _viewState
     private val _viewState = MutableLiveData<ListViewState>()
@@ -72,7 +74,7 @@ class ListViewModel @Inject constructor(
                     // Constructor accords layout type.
                     val itemConstructor = layoutType.itemConstructor
                     val newItems = viewStateValue.items.map { item ->
-                        itemConstructor.invoke(item.productDTO, picasso)
+                        itemConstructor.invoke(item.productDTO, picasso, metric)
                     }
                     //Set new value.
                     _viewState.value = viewStateValue.copy(
@@ -106,7 +108,7 @@ class ListViewModel @Inject constructor(
                     val itemConstructor = listViewState.layoutType.itemConstructor
 
                     _viewState.value = listViewState.copy(
-                        items = productsDTO.map { itemConstructor(it, picasso) }
+                        items = productsDTO.map { itemConstructor(it, picasso, metric) }
                     )
                 }
             }

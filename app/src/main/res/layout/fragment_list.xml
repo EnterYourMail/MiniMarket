@@ -39,6 +39,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_products_list"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/margin_default"

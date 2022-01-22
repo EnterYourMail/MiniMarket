@@ -6,13 +6,14 @@ import com.example.minimarket.database.ProductDTO
 import com.example.minimarket.ui.list.item.ListItem
 import com.example.minimarket.ui.list.item.ListItemCell
 import com.example.minimarket.ui.list.item.ListItemLine
+import com.example.minimarket.utils.Metric
 import com.squareup.picasso.Picasso
 
 enum class LayoutType(
     val code: Int,
     val spanCount: Int,
     val icon: Int,
-    val itemConstructor: (ProductDTO, Picasso) -> ListItem<out ViewBinding>
+    val itemConstructor: (ProductDTO, Picasso, Metric) -> ListItem<out ViewBinding>
 ) {
     GRID(
         code = 0,

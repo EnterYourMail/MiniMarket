@@ -4,11 +4,11 @@ import android.view.View
 import com.example.minimarket.R
 import com.example.minimarket.database.ProductDTO
 import com.example.minimarket.databinding.ItemLineBinding
+import com.example.minimarket.utils.Metric
 import com.squareup.picasso.Picasso
 
-class ListItemLine (productDTO: ProductDTO, picasso: Picasso): ListItem<ItemLineBinding>(productDTO, picasso) {
-
-    override lateinit var transitionView: View
+class ListItemLine(productDTO: ProductDTO, picasso: Picasso, metric: Metric) :
+    ListItem<ItemLineBinding>(productDTO, picasso, metric) {
 
     override fun getLayout() = R.layout.item_line
 
@@ -20,7 +20,6 @@ class ListItemLine (productDTO: ProductDTO, picasso: Picasso): ListItem<ItemLine
         binding.itemLinePriceText.text = productDTO.price.toString()
         //binding.itemLineProductImage.transitionName = transitionName + productDTO.productId
         binding.root.transitionName = transitionName + productDTO.productId
-        transitionView = binding.root
     }
 
     override fun initializeViewBinding(view: View): ItemLineBinding {

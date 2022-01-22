@@ -36,11 +36,11 @@ class CartFragment : BaseFragment() {
         val colorBackground = getThemeColor(android.R.attr.colorBackground)
 
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
             endContainerColor = colorBackground
         }
         sharedElementReturnTransition = MaterialContainerTransform().apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
             startContainerColor = colorBackground
         }
     }
@@ -57,6 +57,7 @@ class CartFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCartBinding.bind(view)
         initToolbar(binding.cartToolbar)
+        setInserts(binding.root)
 
         viewModel.viewState.observe(viewLifecycleOwner, ::observeViewState)
         binding.cartPayButton.setOnClickListener(::cartPayButtonClickListener)

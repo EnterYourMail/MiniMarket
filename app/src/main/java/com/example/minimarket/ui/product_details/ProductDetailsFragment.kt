@@ -40,7 +40,7 @@ class ProductDetailsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong()
+            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
             setAllContainerColors(getColor(requireContext(), R.color.white))
         }
     }
@@ -57,6 +57,7 @@ class ProductDetailsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentProductDetailsBinding.bind(view)
         initToolbar(binding.productDetailsToolbar)
+        setInserts(binding.root)
 
         viewModel.viewState.observe(viewLifecycleOwner, ::observeViewState)
 
@@ -95,7 +96,7 @@ class ProductDetailsFragment : BaseFragment() {
 
     private fun gotoCartButtonOnClick(view: View) {
         exitTransition = Hold().apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong() / 2
+            duration = resources.getInteger(R.integer.hold_duration_large).toLong()
         }
         val cartTransitionName = getString(R.string.cart_transition_name)
         val extras = FragmentNavigatorExtras(view to cartTransitionName)

@@ -50,29 +50,34 @@ class ListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentListBinding.bind(view)
-        //binding.listToolbar.menu.clear()
+
         binding.listToolbar.inflateMenu(R.menu.toolbar_list_menu)
         initToolbar(binding.listToolbar, false)
+        binding.listToolbar.setOnMenuItemClickListener {
+            viewModel.menuItemIdClick(it.itemId)
+        }
+
+        binding.listSearchInput.doOnTextChanged { text, _, _, _ ->
+            viewModel.findProducts(text.toString())
+        }
 
         val layoutMenuItem = binding.listToolbar.menu.findItem(R.id.menu_layout)
         val cartMenuItem = binding.listToolbar.menu.findItem(R.id.cartFragment)
         val cartIconLayout = cartMenuItem.actionView
         val cartIconCounter = CartCounterBinding.bind(cartIconLayout).cartCounterCounterText
-
         cartIconLayout.setOnClickListener(::cartIconOnClick)
-        binding.listToolbar.setOnMenuItemClickListener {
-            viewModel.menuItemIdClick(it.itemId)
-        }
-        binding.listSearchInput.doOnTextChanged { text, _, _, _ ->
-            viewModel.findProducts(text.toString())
-        }
 
         val groupAdapter = GroupieAdapter().apply {
             setOnItemClickListener(::listItemOnClick)
         }
-        binding.listProductsList.adapter = groupAdapter
-        binding.listProductsList.layoutManager = LinearLayoutManager(context)
+        binding.listProductsList.apply {
+            adapter = groupAdapter
+            layoutManager = LinearLayoutManager(context)
+            setInserts(this@apply)
+        }
+        setInserts(binding.root, bottom = false)
 
+        viewModel.metric = getMetric()
         viewModel.viewState.observe(viewLifecycleOwner) { viewState ->
             cartIconCounter.isVisible = viewState.isCartCounterVisible
             cartIconCounter.text = viewState.cartCount.toString()
@@ -89,9 +94,9 @@ class ListFragment : BaseFragment() {
         view.doOnPreDraw { startPostponedEnterTransition() }
     }
 
-    private fun cartIconOnClick(view: View) {
+     private fun cartIconOnClick(view: View) {
         exitTransition = Hold().apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong() / 2
+            duration = resources.getInteger(R.integer.hold_duration_large).toLong()
         }
         val cartTransitionName = getString(R.string.cart_transition_name)
         val extras = FragmentNavigatorExtras(view to cartTransitionName)
@@ -101,11 +106,11 @@ class ListFragment : BaseFragment() {
 
     private fun listItemOnClick(item: com.xwray.groupie.Item<*>, view: View) {
         exitTransition = Hold().apply {
-            duration = resources.getInteger(R.integer.reply_motion_duration_large).toLong() / 2
+            duration = resources.getInteger(R.integer.hold_duration_large).toLong()
         }
         val productDetailsTransitionName = getString(R.string.product_details_transition_name)
         val extras = FragmentNavigatorExtras(
-            (item as ListItem<*>).getView() to productDetailsTransitionName
+            (item as ListItem<*>).rootView to productDetailsTransitionName
         )
         val action = ListFragmentDirections
             .actionListFragmentToProductDetailsFragment(item.productDTO.productId)

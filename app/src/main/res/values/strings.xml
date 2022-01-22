@@ -35,9 +35,6 @@
     <string name="cart_total_text" translatable="false">%d Р</string>
     <string name="cart_transition_name" translatable="false">cart_transition_name</string>
     <string name="cart_icon_transition_name" translatable="false">cart_icon_transition_name</string>
-    <string name="list_item_transition_name" translatable="false">
-        list_item_transition_name
-    </string>
     <string name="product_details_transition_name" translatable="false">
         product_details_transition_name
     </string>
