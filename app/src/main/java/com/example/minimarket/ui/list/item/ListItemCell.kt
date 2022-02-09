@@ -13,7 +13,7 @@ class ListItemCell(productDTO: ProductDTO, picasso: Picasso, metric: Metric) :
     override fun getLayout() = R.layout.item_cell
 
     override fun bind(binding: ItemCellBinding, position: Int) {
-        productDTO.imageLink.picassoLoadInto(binding.itemCellProductImage)
+        binding.itemCellProductImage.picassoLoad(productDTO.imageLink)
         //binding.itemCellProductImage.setImageResource(productDTO.imageResource)
         binding.itemCellProductTitle.text = productDTO.name
         binding.itemCellProducerTitle.text = productDTO.producer

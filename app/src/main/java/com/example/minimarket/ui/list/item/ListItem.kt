@@ -3,6 +3,7 @@ package com.example.minimarket.ui.list.item
 import android.view.View
 import android.widget.ImageView
 import androidx.viewbinding.ViewBinding
+import com.example.minimarket.R
 import com.example.minimarket.database.ProductDTO
 import com.example.minimarket.utils.Metric
 import com.squareup.picasso.Picasso
@@ -27,10 +28,15 @@ abstract class ListItem<T:ViewBinding>(
         _rootView = null
     }
 
-    protected fun String.picassoLoadInto(view: ImageView) {
+    protected fun ImageView.picassoLoad(path: String) {
         val height = (metric.height * 0.3).toInt()
         val width = (metric.width * 0.3).toInt()
-        picasso.load(this).resize(width, height).centerInside().into(view)
+        picasso
+            .load(path)
+            .placeholder(R.drawable.ic_baseline_image_48)
+            .error(R.drawable.ic_baseline_broken_image_48)
+            .resize(width, height).centerInside()
+            .into(this)
     }
 
     companion object {

@@ -62,6 +62,7 @@ class StorageModule {
                     scope.launch { localDatabase.productDao().prepopulate() }
                 }
             })
+            .addMigrations(LocalDatabase.Migration1To2())
             .fallbackToDestructiveMigration()
             .build()
         return localDatabase

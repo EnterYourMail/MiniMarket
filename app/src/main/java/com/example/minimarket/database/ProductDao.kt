@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.minimarket.R
+import com.example.minimarket.utils.Utils
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -41,7 +42,7 @@ interface ProductDao {
             carbohydrates = 28,
             calories = 580,
             imageResource = R.drawable.ic_launcher_background,
-            imageLink = "https://phonoteka.org/uploads/posts/2021-07/1625674705_32-phonoteka-org-p-shokolad-art-krasivo-33.jpg"
+            imageLink = Utils().getDefaultImageLink()
         )
     }
 }

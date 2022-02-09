@@ -51,8 +51,8 @@ open class BaseFragment : Fragment() {
                 bottom = oldBottom + sysInserts.bottom * isBottomInt
             )
 
-            WindowInsetsCompat.Builder().run {
-                setInsets(
+            WindowInsetsCompat.Builder()
+                .setInsets(
                     //left and right = 0, because a rootView has already set paddings.
                     WindowInsetsCompat.Type.systemBars(), Insets.of(
                         0,
@@ -61,8 +61,7 @@ open class BaseFragment : Fragment() {
                         sysInserts.bottom,
                     )
                 )
-                build()
-            }
+                .build()
         }
     }
 
