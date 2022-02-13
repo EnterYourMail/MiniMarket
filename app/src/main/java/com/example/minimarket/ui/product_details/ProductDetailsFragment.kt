@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -39,10 +38,21 @@ class ProductDetailsFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val colorBackground = getThemeColor(android.R.attr.colorBackground)
+
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             duration = resources.getInteger(R.integer.motion_duration_large).toLong()
-            setAllContainerColors(getColor(requireContext(), R.color.white))
+            setAllContainerColors(colorBackground)
         }
+//
+//        sharedElementEnterTransition = MaterialContainerTransform().apply {
+//            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+//            endContainerColor = colorBackground
+//        }
+//        sharedElementReturnTransition = MaterialContainerTransform().apply {
+//            duration = resources.getInteger(R.integer.motion_duration_large).toLong()
+//            startContainerColor = colorBackground
+//        }
     }
 
     override fun onCreateView(

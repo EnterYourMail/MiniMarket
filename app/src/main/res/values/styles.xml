@@ -12,7 +12,15 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextAppearance.MiniMarket.CartCounterText" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="MyToolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
         <item name="titleTextColor">?attr/colorOnPrimary</item>
+        <item name="background">?attr/colorPrimary</item>
+        <item name="colorControlNormal">?attr/colorOnPrimary</item>
     </style>
 </resources>
